@@ -2,7 +2,10 @@ package logic.brick;
 
 import logic.level.AbstractLevel;
 
-public class AbstractBrick implements Brick{
+import java.util.Observable;
+import java.util.Observer;
+
+public abstract class AbstractBrick extends Observable implements Brick{
 
     private int remainingHits;
     private int score;
@@ -45,6 +48,23 @@ public class AbstractBrick implements Brick{
     }
 
     protected void destroyedNotification() {
+        setChanged();
+        notifyObservers(this);
+    }
 
+    public void subscribe(Observer station) {
+        addObserver(station);
+    }
+
+    @Override
+    public void destroy(){
+        while(!isDestroyed()){
+            hit();
+        }
+    }
+
+    @Override
+    void accept(Visitor visitor){
+        
     }
 }

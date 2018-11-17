@@ -1,5 +1,7 @@
 package logic.brick;
 
+import controller.Game;
+
 /**
  * Interface that represents a brick object.
  * <p>
@@ -34,4 +36,8 @@ public interface Brick {
      * @return the remaining hits to destroy de brick
      */
     int remainingHits();
+
+    void destroy();
+
+    void accept(Game game);
 }
