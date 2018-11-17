@@ -29,6 +29,6 @@ public class PlayableLevel extends AbstractLevel{
 
     @Override
     public void setNextLevel(Level level) {
-
+        next = level;
     }
 }

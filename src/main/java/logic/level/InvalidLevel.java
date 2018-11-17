@@ -16,11 +16,6 @@ public class InvalidLevel extends AbstractLevel{
     }
 
     @Override
-    public boolean isPlayableLevel() {
-        return false;
-    }
-
-    @Override
     public boolean hasNextLevel() {
         return false;
     }

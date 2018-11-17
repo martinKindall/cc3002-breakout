@@ -3,8 +3,8 @@ package test;
 import logic.level.EntryLevel;
 import logic.level.InvalidLevel;
 import logic.level.Level;
-
 import logic.level.PlayableLevel;
+
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -35,5 +35,27 @@ public class LevelTest {
         entryLevel.addPlayingLevel(level2);
         assertTrue(level1.hasNextLevel());
         assertFalse(level2.hasNextLevel());
+    }
+
+    @Test
+    public void addLevelTestV2(){
+        entryLevel.addPlayingLevel(level2);
+
+        assertFalse(level1.hasNextLevel());
+        assertFalse(level2.hasNextLevel());
+
+        level2.addPlayingLevel(level1);
+        assertTrue(level2.hasNextLevel());
+
+        Level lastLevel = entryLevel.getNextLevel().getNextLevel();
+        assertEquals(lastLevel, level1);
+    }
+
+
+    @Test
+    public void playableTest(){
+        assertFalse(entryLevel.isPlayableLevel());
+        assertTrue(level1.isPlayableLevel());
+        assertFalse(new InvalidLevel().isPlayableLevel());
     }
 }
