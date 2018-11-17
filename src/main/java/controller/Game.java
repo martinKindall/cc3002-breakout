@@ -12,7 +12,6 @@ import java.util.Observer;
 /**
  * Game logic controller class.
  *
- * @author Juan-Pablo Silva
  */
 public class Game implements Observer {
     private Level currLevel;
@@ -47,8 +46,20 @@ public class Game implements Observer {
         return false;
     }
 
-    public void newLevelWithBricksFull(String s, int i, int i1, int i2, int i3) {
-        this.addPlayingLevel(new PlayableLevel(this, s, i, i1, i2, i3));
+    public Level newLevelWithBricksFull(String s, int i, double i1, double i2, int i3) {
+        Level newLevel = new PlayableLevel(s, i, i1, i2, i3);
+        this.addObserverToBricks(newLevel);
+        this.addPlayingLevel(newLevel);
+
+        return newLevel;
+    }
+
+    private void addObserverToBricks(Level newLevel) {
+        List<Brick> bricks = newLevel.getBricks();
+
+        for (Brick brick: bricks){
+            brick.subscribe(this);
+        }
     }
 
     public void goNextLevel() {

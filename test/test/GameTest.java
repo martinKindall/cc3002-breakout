@@ -37,7 +37,8 @@ public class GameTest {
     @Test
     public void scoreTest(){
         int numberOfBricks = 10;
-        game.newLevelWithBricksFull("level 1", numberOfBricks, 1, 1, 0);
+
+        game.newLevelWithBricksFull("level 1", numberOfBricks, 1, 0, 0);
         game.goNextLevel();
         List<Brick> bricks = game.getBricks();
 
@@ -45,6 +46,23 @@ public class GameTest {
             bricks.get(i).destroy();
         }
 
-        assertEquals(game.getBalls(), 6);
+        int obtainableScore = game.getLevelPoints();
+        assertEquals(game.getCurrentPoints(), obtainableScore/2);
+
+        for (int i = 0; i < numberOfBricks; i++){
+            bricks.get(i).destroy();
+        }
+
+        assertEquals(game.getCurrentPoints(), obtainableScore);
+
+        game.newLevelWithBricksFull("level 2", numberOfBricks, 1, 1, 0);
+        game.goNextLevel();
+        bricks = game.getBricks();
+
+        for (int i = 0; i < numberOfBricks*2; i++){  // destroying metal bricks too
+            bricks.get(i).destroy();
+        }
+
+        assertEquals(game.getCurrentPoints(), obtainableScore*2);
     }
 }

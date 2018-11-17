@@ -32,7 +32,7 @@ public class HomeworkTwoFacade {
      * @see Level
      */
     public Level newLevelWithBricksFull(String name, int numberOfBricks, double probOfGlass, double probOfMetal, int seed) {
-        return null;
+        return game.newLevelWithBricksFull(name, numberOfBricks, probOfGlass, probOfMetal, seed);
     }
 
     /**
@@ -46,7 +46,7 @@ public class HomeworkTwoFacade {
      * @see Level
      */
     public Level newLevelWithBricksNoMetal(String name, int numberOfBricks, double probOfGlass, int seed) {
-        return null;
+        return game.newLevelWithBricksFull(name, numberOfBricks, probOfGlass, 0, seed);
     }
 
     /**
@@ -55,7 +55,7 @@ public class HomeworkTwoFacade {
      * @return the number of intact bricks in the current level
      */
     public int numberOfBricks() {
-        return getCurrentLevel().getBricks().size();
+        return getCurrentLevel().getNumberOfBricks();
     }
 
     /**

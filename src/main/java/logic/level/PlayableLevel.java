@@ -7,7 +7,6 @@ import logic.brick.WoodenBrick;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observer;
 import java.util.Random;
 
 public class PlayableLevel extends AbstractLevel{
@@ -18,7 +17,7 @@ public class PlayableLevel extends AbstractLevel{
     private int numberOfBricks;
 
 
-    public PlayableLevel(Observer observer, String nombre, int numberOfBricks, double probOfGlass, double probOfMetal, int seed){
+    public PlayableLevel(String nombre, int numberOfBricks, double probOfGlass, double probOfMetal, int seed){
         super(nombre);
         this.numberOfBricks = numberOfBricks;
         obtainableScore = 0;
@@ -37,16 +36,16 @@ public class PlayableLevel extends AbstractLevel{
                 newBrick = new WoodenBrick();
             }
 
-            newBrick.subscribe(observer);
-
             bricks.add(newBrick);
             obtainableScore += newBrick.getScore();
+        }
 
+        for (int i=0; i < numberOfBricks; i++){
+            double coin = generator.nextDouble();
             if (coin <= probOfMetal){
                 newBrick = new MetalBrick();
                 bricks.add(newBrick);
                 obtainableScore += newBrick.getScore();
-                newBrick.subscribe(observer);
             }
         }
     }
@@ -54,6 +53,10 @@ public class PlayableLevel extends AbstractLevel{
     @Override
     public List<Brick> getBricks() {
         return bricks;
+    }
+
+    public int getNumberOfBricks(){
+        return numberOfBricks;
     }
 
     @Override
