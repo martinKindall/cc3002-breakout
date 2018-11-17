@@ -4,12 +4,12 @@ import logic.level.AbstractLevel;
 
 public class AbstractBrick implements Brick{
 
-    protected int remainingHits;
-    protected int score;
-    protected BrickStatus status;
+    private int remainingHits;
+    private int score;
+    private BrickStatus status;
 
 
-    public AbstractBrick(int score, int remainingHits){
+    AbstractBrick(int score, int remainingHits){
         this.score = score;
         this.remainingHits = remainingHits;
         this.status = new AliveBrick();
@@ -35,11 +35,16 @@ public class AbstractBrick implements Brick{
         return remainingHits;
     }
 
-    public void reduceHit(){
+    void reduceHit(){
         remainingHits--;
 
         if (remainingHits == 0){
             status = new DestroyedBrick();
+            this.destroyedNotification();
         }
+    }
+
+    protected void destroyedNotification() {
+
     }
 }

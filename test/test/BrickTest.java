@@ -71,5 +71,15 @@ public class BrickTest {
         assertEquals(glass.remainingHits(), 0);
         assertEquals(wooden.remainingHits(), 1);
         assertEquals(metal.remainingHits(), 8);
+
+        for (int i = 0; i < hits; i++){
+            glass.hit();
+            wooden.hit();
+            metal.hit();
+        }
+
+        assertEquals(glass.remainingHits(), 0);
+        assertEquals(wooden.remainingHits(), 0);
+        assertEquals(metal.remainingHits(), 6);
     }
 }
