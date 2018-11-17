@@ -1,5 +1,6 @@
 package logic.brick;
 
+import controller.Game;
 import logic.level.AbstractLevel;
 
 import java.util.Observable;
@@ -10,6 +11,7 @@ public abstract class AbstractBrick extends Observable implements Brick{
     private int remainingHits;
     private int score;
     private BrickStatus status;
+    private int extraBalls;
 
 
     AbstractBrick(int score, int remainingHits){
@@ -52,8 +54,8 @@ public abstract class AbstractBrick extends Observable implements Brick{
         notifyObservers(this);
     }
 
-    public void subscribe(Observer station) {
-        addObserver(station);
+    public void subscribe(Observer game) {
+        addObserver(game);
     }
 
     @Override
@@ -64,7 +66,7 @@ public abstract class AbstractBrick extends Observable implements Brick{
     }
 
     @Override
-    void accept(Visitor visitor){
-        
+    public void accept(Game game){
+
     }
 }

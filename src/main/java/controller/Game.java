@@ -1,6 +1,7 @@
 package controller;
 
 import logic.brick.Brick;
+import logic.level.EntryLevel;
 import logic.level.Level;
 import logic.level.PlayableLevel;
 
@@ -19,6 +20,11 @@ public class Game implements Observer {
 
     public Game(int balls) {
         this.balls = balls;
+        curr = new EntryLevel();
+    }
+
+    public void increaseBalls(){
+        balls++;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package test;
 
+import controller.Game;
 import logic.level.EntryLevel;
 import logic.level.InvalidLevel;
 import logic.level.Level;
@@ -9,6 +10,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class LevelTest {
+    private Game game;
     private Level level1;
     private Level level2;
     private Level level3;
@@ -21,12 +23,14 @@ public class LevelTest {
     @Before
     public void setUp(){
         int seed = 3;
-        level1 = new PlayableLevel("level1", 10, 0, 0, seed);
-        level2 = new PlayableLevel("level2", 10, 1, 0, seed);
-        level3 = new PlayableLevel("level3", 10, 0.4, 0, seed);
-        level4 = new PlayableLevel("level4", 10, 0.7, 0, seed);
-        level5 = new PlayableLevel("level5", 10, 1, 1, seed);
-        level6 = new PlayableLevel("level6", 10, 1, 0.6, seed);
+
+        game = new Game(2);
+        level1 = new PlayableLevel(game, "level1", 10, 0, 0, seed);
+        level2 = new PlayableLevel(game, "level2", 10, 1, 0, seed);
+        level3 = new PlayableLevel(game, "level3", 10, 0.4, 0, seed);
+        level4 = new PlayableLevel(game, "level4", 10, 0.7, 0, seed);
+        level5 = new PlayableLevel(game, "level5", 10, 1, 1, seed);
+        level6 = new PlayableLevel(game, "level6", 10, 1, 0.6, seed);
         entryLevel = new EntryLevel();
     }
 

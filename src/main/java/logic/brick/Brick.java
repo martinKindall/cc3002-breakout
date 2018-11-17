@@ -2,6 +2,8 @@ package logic.brick;
 
 import controller.Game;
 
+import java.util.Observer;
+
 /**
  * Interface that represents a brick object.
  * <p>
@@ -40,4 +42,6 @@ public interface Brick {
     void destroy();
 
     void accept(Game game);
+
+    void subscribe(Observer observer);
 }

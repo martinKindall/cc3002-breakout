@@ -30,20 +30,23 @@ public class PlayableLevel extends AbstractLevel{
 
         for (int i=0; i < numberOfBricks; i++){
             double coin = generator.nextDouble();
-            if (coin < probOfGlass){
+            if (coin <= probOfGlass){
                 newBrick = new GlassBrick();
             }
             else{
                 newBrick = new WoodenBrick();
             }
 
+            newBrick.subscribe(observer);
+
             bricks.add(newBrick);
             obtainableScore += newBrick.getScore();
 
-            if (coin < probOfMetal){
+            if (coin <= probOfMetal){
                 newBrick = new MetalBrick();
                 bricks.add(newBrick);
                 obtainableScore += newBrick.getScore();
+                newBrick.subscribe(observer);
             }
         }
     }

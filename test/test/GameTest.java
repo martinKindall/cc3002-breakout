@@ -16,13 +16,13 @@ public class GameTest {
     private Game game;
 
     @Before
-    void setup(){
+    public void setup(){
         game = new Game(3);
     }
 
 
     @Test
-    void gainBallTest(){
+    public void gainBallTest(){
         game.newLevelWithBricksFull("level 1", 3, 1, 1, 0);
         game.goNextLevel();
         List<Brick> bricks = game.getBricks();
