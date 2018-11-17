@@ -6,26 +6,23 @@ public class AbstractBrick implements Brick{
 
     protected int remainingHits;
     protected int score;
+    protected BrickStatus status;
 
 
     public AbstractBrick(int score, int remainingHits){
         this.score = score;
         this.remainingHits = remainingHits;
+        this.status = new AliveBrick();
     }
-
 
     @Override
     public void hit() {
-        remainingHits--;
-
-        if (remainingHits == 0){
-            // notificar ladrillo destruido
-        }
+        this.status.reduceHit(this);
     }
 
     @Override
     public boolean isDestroyed() {
-        return remainingHits == 0;
+        return this.status.isDestroyed();
     }
 
     @Override
@@ -36,5 +33,13 @@ public class AbstractBrick implements Brick{
     @Override
     public int remainingHits() {
         return remainingHits;
+    }
+
+    public void reduceHit(){
+        remainingHits--;
+
+        if (remainingHits == 0){
+            status = new DestroyedBrick();
+        }
     }
 }

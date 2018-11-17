@@ -57,4 +57,19 @@ public class BrickTest {
         assertEquals(wooden.getScore(), 200);
         assertEquals(metal.getScore(), 0);
     }
+
+    @Test
+    public void remainingHitsTest(){
+        int hits = 2;
+
+        for (int i = 0; i < hits; i++){
+            glass.hit();
+            wooden.hit();
+            metal.hit();
+        }
+
+        assertEquals(glass.remainingHits(), 0);
+        assertEquals(wooden.remainingHits(), 1);
+        assertEquals(metal.remainingHits(), 8);
+    }
 }
