@@ -67,6 +67,6 @@ public abstract class AbstractBrick extends Observable implements Brick{
 
     @Override
     public void accept(Game game){
-
+        game.increaseScore(score);
     }
 }

@@ -15,12 +15,14 @@ import java.util.Observer;
  * @author Juan-Pablo Silva
  */
 public class Game implements Observer {
-    private Level curr;
+    private Level currLevel;
     private int balls;
+    private int currScore;
 
     public Game(int balls) {
         this.balls = balls;
-        curr = new EntryLevel();
+        currLevel = new EntryLevel();
+        currScore = 0;
     }
 
     public void increaseBalls(){
@@ -46,20 +48,44 @@ public class Game implements Observer {
     }
 
     public void newLevelWithBricksFull(String s, int i, int i1, int i2, int i3) {
-        curr.addPlayingLevel(new PlayableLevel(this, s, i, i1, i2, i3));
+        this.addPlayingLevel(new PlayableLevel(this, s, i, i1, i2, i3));
     }
 
     public void goNextLevel() {
-        if (curr.hasNextLevel()){
-            curr = curr.getNextLevel();
+        if (currLevel.hasNextLevel()){
+            currLevel = currLevel.getNextLevel();
         }
     }
 
     public List<Brick> getBricks() {
-        return curr.getBricks();
+        return currLevel.getBricks();
     }
 
     public int getBalls() {
         return balls;
+    }
+
+    public void increaseScore(int extra){
+        currScore += extra;
+    }
+
+    public int getCurrentPoints() {
+        return currScore;
+    }
+
+    public int getLevelPoints() {
+        return currLevel.getPoints();
+    }
+
+    public void addPlayingLevel(Level level) {
+        currLevel.addPlayingLevel(level);
+    }
+
+    public void setCurrentLevel(Level level) {
+        currLevel = level;
+    }
+
+    public Level getCurrentLevel() {
+        return currLevel;
     }
 }

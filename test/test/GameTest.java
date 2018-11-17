@@ -33,4 +33,18 @@ public class GameTest {
 
         assertEquals(game.getBalls(), 6);
     }
+
+    @Test
+    public void scoreTest(){
+        int numberOfBricks = 10;
+        game.newLevelWithBricksFull("level 1", numberOfBricks, 1, 1, 0);
+        game.goNextLevel();
+        List<Brick> bricks = game.getBricks();
+
+        for (int i = 0; i < numberOfBricks/2; i++){
+            bricks.get(i).destroy();
+        }
+
+        assertEquals(game.getBalls(), 6);
+    }
 }
