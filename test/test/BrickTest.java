@@ -13,7 +13,7 @@ public class BrickTest {
     private Brick glass;
     private Brick metal;
 
-    
+
     @Before
     public void setup(){
         wooden = new WoodenBrick();
@@ -49,5 +49,12 @@ public class BrickTest {
         }
 
         assertEquals(metalCnt, 10);
+    }
+
+    @Test
+    public void scoreTest(){
+        assertEquals(glass.getScore(), 50);
+        assertEquals(wooden.getScore(), 200);
+        assertEquals(metal.getScore(), 0);
     }
 }

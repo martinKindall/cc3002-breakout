@@ -30,7 +30,7 @@ public class AbstractBrick implements Brick{
 
     @Override
     public int getScore() {
-        return 0;
+        return score;
     }
 
     @Override
