@@ -68,12 +68,10 @@ public abstract class AbstractLevel extends Observable implements Level {
     }
 
     @Override
-    public void acceptGame(Game game){
-        game.goNextLevel();
-    }
-
-    @Override
     public void subscribe(Observer game) {
         addObserver(game);
     }
+
+    @Override
+    public void increaseScore(int score) {}
 }

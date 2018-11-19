@@ -1,8 +1,10 @@
 package controller;
 
 import logic.brick.Brick;
+import logic.brick.BrickEvent;
 import logic.level.InvalidLevel;
 import logic.level.Level;
+import logic.level.LevelEvent;
 import logic.level.PlayableLevel;
 
 import java.util.List;
@@ -32,12 +34,12 @@ public class Game implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof Brick) {
-            ((Brick) arg).acceptGame(this);
+        if (arg instanceof BrickEvent) {
+            ((BrickEvent) arg).visitGame(this);
         }
 
-        if (arg instanceof Level) {
-            ((Level) arg).acceptGame(this);
+        if (arg instanceof LevelEvent) {
+            ((LevelEvent) arg).visitGame(this);
         }
     }
 

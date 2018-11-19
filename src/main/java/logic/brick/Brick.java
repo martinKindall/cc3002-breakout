@@ -43,9 +43,5 @@ public interface Brick {
 
     void destroy();
 
-    void acceptGame(Game game);
-
     void subscribe(Observer observer);
-
-    void acceptLevel(Level level);
 }

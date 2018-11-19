@@ -21,9 +21,4 @@ public class InvalidLevel extends AbstractLevel{
     public Level addPlayingLevel(Level level) {
         return level;
     }
-
-    @Override
-    public void increaseScore(int score) {
-
-    }
 }

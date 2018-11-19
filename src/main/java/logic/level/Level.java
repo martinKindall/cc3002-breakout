@@ -77,7 +77,5 @@ public interface Level {
 
     void increaseScore(int score);
 
-    void acceptGame(Game game);
-
     void subscribe(Observer observer);
 }

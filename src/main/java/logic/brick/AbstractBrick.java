@@ -13,8 +13,6 @@ public abstract class AbstractBrick extends Observable implements Brick{
     private int remainingHits;
     private int score;
     private BrickStatus status;
-    private int extraBalls;
-
 
     AbstractBrick(int score, int remainingHits){
         this.score = score;
@@ -53,7 +51,7 @@ public abstract class AbstractBrick extends Observable implements Brick{
 
     protected void destroyedNotification() {
         setChanged();
-        notifyObservers(this);
+        notifyObservers(new CommonBrickDestroyed(this));
     }
 
     public void subscribe(Observer observer) {
@@ -65,14 +63,5 @@ public abstract class AbstractBrick extends Observable implements Brick{
         while(!isDestroyed()){
             hit();
         }
-    }
-
-    @Override
-    public void acceptGame(Game game){
-        game.increaseScore(score);
-    }
-
-    public void acceptLevel(Level level){
-        level.increaseScore(score);
     }
 }

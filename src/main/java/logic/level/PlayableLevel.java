@@ -1,9 +1,6 @@
 package logic.level;
 
-import logic.brick.Brick;
-import logic.brick.GlassBrick;
-import logic.brick.MetalBrick;
-import logic.brick.WoodenBrick;
+import logic.brick.*;
 
 import java.util.*;
 
@@ -83,8 +80,8 @@ public class PlayableLevel extends AbstractLevel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof Brick) {
-            ((Brick) arg).acceptLevel(this);
+        if (arg instanceof BrickEvent) {
+            ((BrickEvent) arg).visitLevel(this);
         }
     }
 
@@ -98,6 +95,6 @@ public class PlayableLevel extends AbstractLevel implements Observer {
 
     private void levelComplete() {
         setChanged();
-        notifyObservers(this);
+        notifyObservers(new LevelFinished());
     }
 }
