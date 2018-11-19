@@ -1,10 +1,8 @@
 package logic.brick;
 
-import controller.Game;
+import controller.GeneralEvent;
 import logic.level.Level;
 
-public interface BrickEvent {
-
+public interface BrickEvent extends GeneralEvent {
     void visitLevel(Level level);
-    void visitGame(Game game);
 }

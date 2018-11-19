@@ -83,6 +83,9 @@ public class PlayableLevel extends AbstractLevel implements Observer {
         if (arg instanceof BrickEvent) {
             ((BrickEvent) arg).visitLevel(this);
         }
+        else{
+            throw new RuntimeException("Observable no identificado");
+        }
     }
 
     public void increaseScore(int score){

@@ -1,10 +1,5 @@
 package logic.brick;
 
-import controller.Game;
-import logic.level.AbstractLevel;
-import logic.level.Level;
-import logic.level.PlayableLevel;
-
 import java.util.Observable;
 import java.util.Observer;
 
