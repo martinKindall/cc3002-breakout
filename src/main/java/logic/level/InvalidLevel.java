@@ -1,8 +1,5 @@
 package logic.level;
 
-import logic.brick.Brick;
-
-import java.util.List;
 
 public class InvalidLevel extends AbstractLevel{
 
@@ -23,5 +20,10 @@ public class InvalidLevel extends AbstractLevel{
     @Override
     public Level addPlayingLevel(Level level) {
         return level;
+    }
+
+    @Override
+    public void increaseScore(int score) {
+
     }
 }

@@ -6,6 +6,7 @@ import logic.brick.GlassBrick;
 import logic.brick.MetalBrick;
 import logic.brick.WoodenBrick;
 
+import logic.level.Level;
 import org.junit.*;
 
 import java.util.List;
@@ -23,8 +24,9 @@ public class GameTest {
 
     @Test
     public void gainBallTest(){
-        game.newLevelWithBricksFull("level 1", 3, 1, 1, 0);
-        game.goNextLevel();
+        Level level = game.newLevelWithBricksFull("level 1", 3, 1, 1, 0);
+        game.setCurrentLevel(level);
+
         List<Brick> bricks = game.getBricks();
 
         for (Brick brick: bricks){
@@ -38,8 +40,9 @@ public class GameTest {
     public void scoreTest(){
         int numberOfBricks = 10;
 
-        game.newLevelWithBricksFull("level 1", numberOfBricks, 1, 0, 0);
-        game.goNextLevel();
+        Level level = game.newLevelWithBricksFull("level 1", numberOfBricks, 1, 0, 0);
+        game.setCurrentLevel(level);
+
         List<Brick> bricks = game.getBricks();
 
         for (int i = 0; i < numberOfBricks/2; i++){
@@ -55,8 +58,9 @@ public class GameTest {
 
         assertEquals(game.getCurrentPoints(), obtainableScore);
 
-        game.newLevelWithBricksFull("level 2", numberOfBricks, 1, 1, 0);
-        game.goNextLevel();
+        Level level2 = game.newLevelWithBricksFull("level 2", numberOfBricks, 1, 1, 0);
+        game.setCurrentLevel(level2);
+
         bricks = game.getBricks();
 
         for (int i = 0; i < numberOfBricks*2; i++){  // destroying metal bricks too

@@ -1,6 +1,8 @@
 package logic.brick;
 
 import controller.Game;
+import logic.level.Level;
+import logic.level.PlayableLevel;
 
 import java.util.Observer;
 
@@ -41,7 +43,9 @@ public interface Brick {
 
     void destroy();
 
-    void accept(Game game);
+    void acceptGame(Game game);
 
     void subscribe(Observer observer);
+
+    void acceptLevel(Level level);
 }

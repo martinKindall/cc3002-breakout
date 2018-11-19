@@ -1,11 +1,14 @@
 package logic.level;
 
+import controller.Game;
 import logic.brick.Brick;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public abstract class AbstractLevel implements Level {
+public abstract class AbstractLevel extends Observable implements Level {
 
     protected String name;
     protected Level next;
@@ -62,5 +65,15 @@ public abstract class AbstractLevel implements Level {
     @Override
     public List<Brick> getBricks() {
         return new LinkedList<>();
+    }
+
+    @Override
+    public void acceptGame(Game game){
+        game.goNextLevel();
+    }
+
+    @Override
+    public void subscribe(Observer game) {
+        addObserver(game);
     }
 }

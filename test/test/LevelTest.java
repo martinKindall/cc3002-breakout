@@ -1,7 +1,6 @@
 package test;
 
 import controller.Game;
-import logic.level.EntryLevel;
 import logic.level.InvalidLevel;
 import logic.level.Level;
 import logic.level.PlayableLevel;
@@ -29,36 +28,27 @@ public class LevelTest {
         level4 = new PlayableLevel("level4", 10, 0.7, 0, seed);
         level5 = new PlayableLevel("level5", 10, 1, 1, seed);
         level6 = new PlayableLevel("level6", 10, 1, 0.6, seed);
-        entryLevel = new EntryLevel();
+        entryLevel = new InvalidLevel();
     }
 
     @Test
     public void addLevelTest(){
         assertFalse(entryLevel.hasNextLevel());
 
-        entryLevel.addPlayingLevel(level1);
-        assertTrue(entryLevel.hasNextLevel());
-        assertEquals(level1, entryLevel.getNextLevel());
-
-        Level nextLevel = entryLevel.getNextLevel();
-        assertFalse(nextLevel.hasNextLevel());
-
-        entryLevel.addPlayingLevel(level2);
+        level1.addPlayingLevel(level2);
         assertTrue(level1.hasNextLevel());
         assertFalse(level2.hasNextLevel());
     }
 
     @Test
     public void addLevelTestV2(){
-        entryLevel.addPlayingLevel(level2);
-
         assertFalse(level1.hasNextLevel());
         assertFalse(level2.hasNextLevel());
 
         level2.addPlayingLevel(level1);
         assertTrue(level2.hasNextLevel());
 
-        Level lastLevel = entryLevel.getNextLevel().getNextLevel();
+        Level lastLevel = level2.getNextLevel();
         assertEquals(lastLevel, level1);
     }
 

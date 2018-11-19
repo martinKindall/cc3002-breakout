@@ -5,11 +5,9 @@ import logic.brick.GlassBrick;
 import logic.brick.MetalBrick;
 import logic.brick.WoodenBrick;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-public class PlayableLevel extends AbstractLevel{
+public class PlayableLevel extends AbstractLevel implements Observer {
 
     protected List<Brick> bricks;
     private int obtainableScore;
@@ -20,6 +18,7 @@ public class PlayableLevel extends AbstractLevel{
     public PlayableLevel(String nombre, int numberOfBricks, double probOfGlass, double probOfMetal, int seed){
         super(nombre);
         this.numberOfBricks = numberOfBricks;
+        currentScore = 0;
         obtainableScore = 0;
 
         bricks = new LinkedList<>();
@@ -38,6 +37,7 @@ public class PlayableLevel extends AbstractLevel{
 
             bricks.add(newBrick);
             obtainableScore += newBrick.getScore();
+            newBrick.subscribe(this);
         }
 
         for (int i=0; i < numberOfBricks; i++){
@@ -46,6 +46,8 @@ public class PlayableLevel extends AbstractLevel{
                 newBrick = new MetalBrick();
                 bricks.add(newBrick);
                 obtainableScore += newBrick.getScore();
+                this.numberOfBricks++;
+                newBrick.subscribe(this);
             }
         }
     }
@@ -77,5 +79,25 @@ public class PlayableLevel extends AbstractLevel{
     @Override
     public int getPoints() {
         return obtainableScore;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof Brick) {
+            ((Brick) arg).acceptLevel(this);
+        }
+    }
+
+    public void increaseScore(int score){
+        currentScore += score;
+
+        if (currentScore == obtainableScore){
+            levelComplete();
+        }
+    }
+
+    private void levelComplete() {
+        setChanged();
+        notifyObservers(this);
     }
 }

@@ -9,8 +9,8 @@ public class MetalBrick extends AbstractBrick {
     }
 
     @Override
-    public void accept(Game game){
-        super.accept(game);
+    public void acceptGame(Game game){
+        super.acceptGame(game);
 
         game.increaseBalls();
     }

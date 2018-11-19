@@ -1,7 +1,7 @@
 package controller;
 
 import logic.brick.Brick;
-import logic.level.EntryLevel;
+import logic.level.InvalidLevel;
 import logic.level.Level;
 import logic.level.PlayableLevel;
 
@@ -17,11 +17,13 @@ public class Game implements Observer {
     private Level currLevel;
     private int balls;
     private int currScore;
+    private boolean finished;
 
     public Game(int balls) {
         this.balls = balls;
-        currLevel = new EntryLevel();
+        currLevel = new InvalidLevel();
         currScore = 0;
+        finished = false;
     }
 
     public void increaseBalls(){
@@ -31,7 +33,11 @@ public class Game implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Brick) {
-            ((Brick) arg).accept(this);
+            ((Brick) arg).acceptGame(this);
+        }
+
+        if (arg instanceof Level) {
+            ((Level) arg).acceptGame(this);
         }
     }
 
@@ -43,13 +49,13 @@ public class Game implements Observer {
      * @return true if the game has a winner, false otherwise
      */
     public boolean winner() {
-        return false;
+        return finished;
     }
 
     public Level newLevelWithBricksFull(String s, int i, double i1, double i2, int i3) {
         Level newLevel = new PlayableLevel(s, i, i1, i2, i3);
         this.addObserverToBricks(newLevel);
-        this.addPlayingLevel(newLevel);
+        newLevel.subscribe(this);
 
         return newLevel;
     }
@@ -63,9 +69,10 @@ public class Game implements Observer {
     }
 
     public void goNextLevel() {
-        if (currLevel.hasNextLevel()){
-            currLevel = currLevel.getNextLevel();
+        if (!currLevel.hasNextLevel()){
+            finished = true;
         }
+        currLevel = currLevel.getNextLevel();
     }
 
     public List<Brick> getBricks() {
@@ -98,5 +105,12 @@ public class Game implements Observer {
 
     public Level getCurrentLevel() {
         return currLevel;
+    }
+
+    public int dropBall() {
+        if (balls > 0)
+            balls--;
+
+        return balls;
     }
 }

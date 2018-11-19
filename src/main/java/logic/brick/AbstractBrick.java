@@ -2,6 +2,8 @@ package logic.brick;
 
 import controller.Game;
 import logic.level.AbstractLevel;
+import logic.level.Level;
+import logic.level.PlayableLevel;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -54,8 +56,8 @@ public abstract class AbstractBrick extends Observable implements Brick{
         notifyObservers(this);
     }
 
-    public void subscribe(Observer game) {
-        addObserver(game);
+    public void subscribe(Observer observer) {
+        addObserver(observer);
     }
 
     @Override
@@ -66,7 +68,11 @@ public abstract class AbstractBrick extends Observable implements Brick{
     }
 
     @Override
-    public void accept(Game game){
+    public void acceptGame(Game game){
         game.increaseScore(score);
+    }
+
+    public void acceptLevel(Level level){
+        level.increaseScore(score);
     }
 }
