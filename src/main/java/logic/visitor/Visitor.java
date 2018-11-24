@@ -1,10 +1,10 @@
 package logic.visitor;
 
 import controller.Game;
-import logic.level.Level;
+import logic.level.PlayableLevel;
 
 public interface Visitor {
     void visitGame(Game game);
 
-    void visitLevel(Level level);
+    void visitLevel(PlayableLevel level);
 }

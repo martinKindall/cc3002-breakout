@@ -2,7 +2,7 @@ package logic.visitor;
 
 import controller.Game;
 import logic.brick.Brick;
-import logic.level.Level;
+import logic.level.PlayableLevel;
 
 public class AbstractDestroyedBrickVisitor implements Visitor{
     private Brick destroyedBrick;
@@ -17,7 +17,8 @@ public class AbstractDestroyedBrickVisitor implements Visitor{
     }
 
     @Override
-    public void visitLevel(Level level){
+    public void visitLevel(PlayableLevel level){
         level.increaseScore(destroyedBrick.getScore());
+        level.decreaseBricks();
     }
 }

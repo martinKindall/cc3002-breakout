@@ -1,7 +1,7 @@
 package logic.visitor;
 
 import controller.Game;
-import logic.level.Level;
+import logic.level.PlayableLevel;
 
 public class FinishedLevelVisitor implements Visitor {
 
@@ -11,5 +11,5 @@ public class FinishedLevelVisitor implements Visitor {
     }
 
     @Override
-    public void visitLevel(Level level){}
+    public void visitLevel(PlayableLevel level){}
 }

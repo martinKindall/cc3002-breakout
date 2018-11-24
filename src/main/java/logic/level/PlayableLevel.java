@@ -93,6 +93,10 @@ public class PlayableLevel extends AbstractLevel implements Observer {
         }
     }
 
+    public void decreaseBricks(){
+        --numberOfBricks;
+    }
+
     private void levelComplete() {
         setChanged();
         notifyObservers(new FinishedLevelVisitor());

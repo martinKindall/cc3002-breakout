@@ -1,6 +1,7 @@
 package test;
 
 import controller.Game;
+import logic.level.AbstractLevel;
 import logic.level.InvalidLevel;
 import logic.level.Level;
 import logic.level.PlayableLevel;
@@ -9,7 +10,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class LevelTest {
-    private Level level1;
+    private PlayableLevel level1;
     private Level level2;
     private Level level3;
     private Level level4;
@@ -73,5 +74,46 @@ public class LevelTest {
         assertEquals(level2.getPoints(), 500);
         assertEquals(level3.getPoints(), 1400);
         assertEquals(level4.getPoints(), 1250);
+    }
+
+    @Test
+    public void attributesTest(){
+        Level aLevel = new PlayableLevel("1er", 10, 1, 0, 0);
+
+        assertEquals(aLevel.getName(), "1er");
+        assertFalse(aLevel.getNextLevel().isPlayableLevel());
+
+        Level otherLevel = new PlayableLevel("2nd", 10, 1, 0, 0);
+        aLevel.setNextLevel(otherLevel);
+        assertEquals(aLevel.getNextLevel(), otherLevel);
+
+        assertEquals(aLevel.getNumberOfBricks(), 10);
+        assertEquals(aLevel.getPoints(), 500);
+    }
+
+
+    @Test
+    public void abstractTest(){
+        AbstractLevel aLevel = new InvalidLevel();
+
+        assertEquals(0, aLevel.getNumberOfBricks());
+        assertEquals("", aLevel.getName());
+        assertFalse(aLevel.isPlayableLevel());
+        assertFalse(aLevel.hasNextLevel());
+
+        Game aGame = new Game(3);
+
+        assertEquals(0, aLevel.countObservers());
+        aLevel.subscribe(aGame);
+        assertEquals(1, aLevel.countObservers());
+
+        aLevel.setNextLevel(level1);
+        assertEquals(aLevel, aLevel.getNextLevel());
+
+        assertEquals(0, aLevel.getBricks().size());
+
+        assertEquals(0, aLevel.getPoints());
+        aLevel.increaseScore(100);
+        assertEquals(0, aLevel.getPoints());
     }
 }

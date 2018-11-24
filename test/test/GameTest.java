@@ -2,13 +2,9 @@ package test;
 
 import controller.Game;
 import logic.brick.Brick;
-import logic.brick.GlassBrick;
-import logic.brick.MetalBrick;
-import logic.brick.WoodenBrick;
 
 import logic.level.Level;
 import org.junit.*;
-import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.util.List;
 
