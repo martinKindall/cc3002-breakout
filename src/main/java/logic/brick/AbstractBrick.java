@@ -1,5 +1,7 @@
 package logic.brick;
 
+import logic.visitor.CommonBrickDestroyedVisitor;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -46,7 +48,7 @@ public abstract class AbstractBrick extends Observable implements Brick{
 
     protected void destroyedNotification() {
         setChanged();
-        notifyObservers(new CommonBrickDestroyed(this));
+        notifyObservers(new CommonBrickDestroyedVisitor(this));
     }
 
     public void subscribe(Observer observer) {

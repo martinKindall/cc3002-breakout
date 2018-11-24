@@ -4,6 +4,7 @@ import logic.brick.Brick;
 import logic.level.InvalidLevel;
 import logic.level.Level;
 import logic.level.PlayableLevel;
+import logic.visitor.Visitor;
 
 import java.util.List;
 import java.util.Observable;
@@ -32,12 +33,7 @@ public class Game implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof GeneralEvent) {
-            ((GeneralEvent) arg).visitGame(this);
-        }
-        else{
-            throw new RuntimeException("Observable no identificado");
-        }
+        ((Visitor) arg).visitGame(this);
     }
 
     /**

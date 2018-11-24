@@ -1,6 +1,8 @@
 package logic.level;
 
 import logic.brick.*;
+import logic.visitor.FinishedLevelVisitor;
+import logic.visitor.Visitor;
 
 import java.util.*;
 
@@ -80,12 +82,7 @@ public class PlayableLevel extends AbstractLevel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof BrickEvent) {
-            ((BrickEvent) arg).visitLevel(this);
-        }
-        else{
-            throw new RuntimeException("Observable no identificado");
-        }
+        ((Visitor) arg).visitLevel(this);
     }
 
     public void increaseScore(int score){
@@ -98,6 +95,6 @@ public class PlayableLevel extends AbstractLevel implements Observer {
 
     private void levelComplete() {
         setChanged();
-        notifyObservers(new LevelFinished());
+        notifyObservers(new FinishedLevelVisitor());
     }
 }

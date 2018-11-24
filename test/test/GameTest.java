@@ -8,6 +8,7 @@ import logic.brick.WoodenBrick;
 
 import logic.level.Level;
 import org.junit.*;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.util.List;
 
@@ -68,5 +69,59 @@ public class GameTest {
         }
 
         assertEquals(game.getCurrentPoints(), obtainableScore*2);
+    }
+
+    @Test
+    public void addingLevelsTest(){
+        assertFalse(game.getCurrentLevel().isPlayableLevel());
+
+        Level firstLevel = game.newLevelWithBricksFull("1er", 10, 1, 0, 0);
+        game.setCurrentLevel(firstLevel);
+
+        assertTrue(game.getCurrentLevel().isPlayableLevel());
+        assertFalse(game.getCurrentLevel().getNextLevel().isPlayableLevel());
+    }
+
+    @Test
+    public void advancingLevelsTest(){
+        addingLevelsTest();
+
+        assertFalse(game.winner());
+
+        Level secondLev = game.newLevelWithBricksFull("2nd", 10, 1, 0, 0);
+        assertNotEquals(secondLev, game.getCurrentLevel());
+        game.addPlayingLevel(secondLev);
+        assertNotEquals(secondLev, game.getCurrentLevel());
+
+        List<Brick> bricks = game.getBricks();
+
+        for (Brick brick : bricks){
+            brick.destroy();
+        }
+
+        assertFalse(game.winner());
+        assertEquals(secondLev, game.getCurrentLevel());
+
+        bricks = game.getBricks();
+
+        for (Brick brick : bricks){
+            brick.destroy();
+        }
+
+        assertTrue(game.winner());
+    }
+
+    @Test
+    public void goNextLevelTest(){
+        addingLevelsTest();
+        Level curr = game.getCurrentLevel();
+        Level secondLev = game.newLevelWithBricksFull("2nd", 10, 1, 0, 0);
+        game.addPlayingLevel(secondLev);
+
+        assertEquals(curr, game.getCurrentLevel());
+
+        game.goNextLevel();
+        assertNotEquals(curr, game.getCurrentLevel());
+        assertEquals(secondLev, game.getCurrentLevel());
     }
 }

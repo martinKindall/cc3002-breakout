@@ -1,5 +1,7 @@
 package logic.brick;
 
+import logic.visitor.MetalBrickDestroyedVisitor;
+
 public class MetalBrick extends AbstractBrick {
 
     public MetalBrick() {
@@ -10,6 +12,6 @@ public class MetalBrick extends AbstractBrick {
     @Override
     protected void destroyedNotification() {
         setChanged();
-        notifyObservers(new MetalBrickDestroyed(this));
+        notifyObservers(new MetalBrickDestroyedVisitor(this));
     }
 }

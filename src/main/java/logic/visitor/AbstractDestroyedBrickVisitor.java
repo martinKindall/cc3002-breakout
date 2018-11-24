@@ -1,12 +1,13 @@
-package logic.brick;
+package logic.visitor;
 
 import controller.Game;
+import logic.brick.Brick;
 import logic.level.Level;
 
-public abstract class AbstractBrickDestroyed implements BrickEvent {
+public class AbstractDestroyedBrickVisitor implements Visitor{
     private Brick destroyedBrick;
 
-    public AbstractBrickDestroyed(Brick brick){
+    public AbstractDestroyedBrickVisitor(Brick brick){
         destroyedBrick = brick;
     }
 
