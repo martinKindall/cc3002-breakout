@@ -1,9 +1,5 @@
 package logic.brick;
 
-import controller.Game;
-import logic.level.Level;
-import logic.level.PlayableLevel;
-
 import java.util.Observer;
 
 /**
@@ -41,7 +37,14 @@ public interface Brick {
      */
     int remainingHits();
 
+    /**
+     * Helper method, simulated a brick being damaged hit by hit until it is destroyed.
+     */
     void destroy();
 
+    /**
+     * Adds an observer to the brick.
+     * @param observer the one observing the brick
+     */
     void subscribe(Observer observer);
 }

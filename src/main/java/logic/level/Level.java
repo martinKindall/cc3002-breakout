@@ -1,6 +1,5 @@
 package logic.level;
 
-import controller.Game;
 import logic.brick.Brick;
 
 import java.util.List;
@@ -75,7 +74,15 @@ public interface Level {
      */
     void setNextLevel(Level level);
 
+    /**
+     * Increases the score of the level
+     * @param score amount of score being added
+     */
     void increaseScore(int score);
 
+    /**
+     * Adds an observer to the observable level
+     * @param observer the one observing the level
+     */
     void subscribe(Observer observer);
 }

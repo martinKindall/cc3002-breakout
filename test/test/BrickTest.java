@@ -1,5 +1,9 @@
 package test;
 
+/**
+ * @author https://github.com/martinKindall
+ */
+
 import logic.brick.Brick;
 import logic.brick.GlassBrick;
 import logic.brick.MetalBrick;

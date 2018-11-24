@@ -6,6 +6,10 @@ import logic.level.Level;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+/**
+ * @author https://github.com/martinKindall
+ */
+
 public class FacadeTest {
     private HomeworkTwoFacade facade;
 

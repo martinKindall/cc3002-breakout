@@ -1,5 +1,9 @@
 package test;
 
+/**
+ * @author https://github.com/martinKindall
+ */
+
 import controller.Game;
 import logic.brick.Brick;
 

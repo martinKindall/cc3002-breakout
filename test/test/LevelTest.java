@@ -1,5 +1,9 @@
 package test;
 
+/**
+ * @author https://github.com/martinKindall
+ */
+
 import controller.Game;
 import logic.level.AbstractLevel;
 import logic.level.InvalidLevel;
