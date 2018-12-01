@@ -1,5 +1,7 @@
 package gui;
 
 public enum ExampleType {
-    PLAYER
+    PLAYER,
+    BALL,
+    WALL
 }
