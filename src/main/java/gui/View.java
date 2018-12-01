@@ -2,10 +2,12 @@ package gui;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.PositionComponent;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
 import javafx.scene.input.KeyCode;
 
@@ -31,14 +33,14 @@ public class View extends GameApplication {
             @Override
             protected void onAction() {
                 getGameWorld().getEntitiesByType(ExampleType.PLAYER)
-                        .forEach(e -> e.translateX(5));
+                        .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(5, 0)));
             }
         }, KeyCode.D);
         input.addAction(new UserAction("Move Left") {
             @Override
             protected void onAction() {
                 getGameWorld().getEntitiesByType(ExampleType.PLAYER)
-                        .forEach(e -> e.translateX(-5));
+                        .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(-5, 0)));
             }
         }, KeyCode.A);
     }

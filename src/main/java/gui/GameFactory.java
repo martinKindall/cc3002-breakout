@@ -17,10 +17,18 @@ public final class GameFactory {
 
 
     public static Entity newPlayer(double x, double y) {
+        int playerWidth = 100, playerHeight = 30;
+
+        PhysicsComponent physics = new PhysicsComponent();
+        physics.setBodyType(BodyType.KINEMATIC);
+        physics.setFixtureDef(
+                new FixtureDef().restitution(1.2f).density(1f));
+
         return Entities.builder()
                 .at(x, y)
                 .type(ExampleType.PLAYER)
-                .viewFromNode(new Rectangle(100, 30, Color.BLUE))
+                .viewFromNodeWithBBox(new Rectangle(playerWidth, playerHeight, Color.BLUE))
+                .with(physics, new CollidableComponent(true))
                 .build();
     }
 
@@ -28,7 +36,7 @@ public final class GameFactory {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(
-                new FixtureDef().restitution(1f).density(0.1f));
+                new FixtureDef().restitution(1f).density(1f));
         physics.setOnPhysicsInitialized(
                 () -> physics.setLinearVelocity(5 * 60, -5 * 60));
         return Entities.builder()
