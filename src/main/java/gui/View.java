@@ -21,6 +21,9 @@ public class View extends GameApplication {
 
     private HomeworkTwoFacade facade;
     private Entity player;
+    private int delta;
+    private int deltaRight;
+    private int deltaLeft;
 
     public static void main(String... args) {
         launch(args);
@@ -35,6 +38,9 @@ public class View extends GameApplication {
         Entity walls = GameFactory.newWalls();
         getGameWorld().addEntities(player, walls);
         generateBall();
+
+        delta = 5;
+        deltaRight = deltaLeft = delta;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class View extends GameApplication {
                 getGameWorld().getEntitiesByType(ExampleType.PLAYER, ExampleType.BALL)
                         .stream()
                         .filter(e -> e.getComponent(PhysicsComponent.class).getVelocityY() == 0)
-                        .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(5, 0)));
+                        .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(deltaRight, 0)));
             }
         }, KeyCode.D);
         input.addAction(new UserAction("Move Left") {
@@ -55,7 +61,7 @@ public class View extends GameApplication {
                 getGameWorld().getEntitiesByType(ExampleType.PLAYER, ExampleType.BALL)
                         .stream()
                         .filter(e -> e.getComponent(PhysicsComponent.class).getVelocityY() == 0)
-                        .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(-5, 0)));
+                        .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(-deltaLeft, 0)));
             }
         }, KeyCode.A);
         input.addAction(new UserAction("Move Ball") {
@@ -96,6 +102,26 @@ public class View extends GameApplication {
                                 generateBall();
                             }
                         }
+                    }
+                });
+        getPhysicsWorld().addCollisionHandler(
+                new CollisionHandler(ExampleType.PLAYER, ExampleType.WALL) {
+                    @Override
+                    protected void onHitBoxTrigger(Entity player, Entity wall,
+                                                   HitBox boxBall, HitBox boxWall) {
+                        if (boxWall.getName().equals("RIGHT")) {
+                            deltaRight = 0;
+                        }
+
+                        if (boxWall.getName().equals("LEFT")) {
+                            deltaLeft = 0;
+                        }
+                    }
+
+                    @Override
+                    protected void onCollisionEnd(Entity player, Entity wall) {
+                        deltaRight = delta;
+                        deltaLeft = delta;
                     }
                 });
     }
