@@ -22,7 +22,7 @@ public final class GameFactory {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.KINEMATIC);
         physics.setFixtureDef(
-                new FixtureDef().restitution(1.2f).density(1f));
+                new FixtureDef().restitution(1.2f).density(0.1f));
 
         return Entities.builder()
                 .at(x, y)
@@ -37,8 +37,8 @@ public final class GameFactory {
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(
                 new FixtureDef().restitution(1f).density(1f));
-        physics.setOnPhysicsInitialized(
-                () -> physics.setLinearVelocity(5 * 60, -5 * 60));
+//        physics.setOnPhysicsInitialized(
+//                () -> physics.setLinearVelocity(5 * 60, -5 * 60));
         return Entities.builder()
                 .at(x, y)
                 .type(ExampleType.BALL)

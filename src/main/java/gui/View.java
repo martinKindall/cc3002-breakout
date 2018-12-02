@@ -9,7 +9,9 @@ import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
+
 
 public class View extends GameApplication {
 
@@ -21,7 +23,10 @@ public class View extends GameApplication {
     protected void initGame() {
         Entity bg = GameFactory.newBackground();
         Entity player = GameFactory.newPlayer(100, 550);
-        Entity ball = GameFactory.newBall(100, 300);
+        Point2D playerPos = player.getPosition();
+        double width = player.getWidth();
+
+        Entity ball = GameFactory.newBall(playerPos.getX() + width/2, playerPos.getY());
         Entity walls = GameFactory.newWalls();
         getGameWorld().addEntities(player, bg, ball, walls);
     }
@@ -32,17 +37,30 @@ public class View extends GameApplication {
         input.addAction(new UserAction("Move Right") {
             @Override
             protected void onAction() {
-                getGameWorld().getEntitiesByType(ExampleType.PLAYER)
+                getGameWorld().getEntitiesByType(ExampleType.PLAYER, ExampleType.BALL)
+                        .stream()
+                        .filter(e -> e.getComponent(PhysicsComponent.class).getVelocityY() == 0)
                         .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(5, 0)));
             }
         }, KeyCode.D);
         input.addAction(new UserAction("Move Left") {
             @Override
             protected void onAction() {
-                getGameWorld().getEntitiesByType(ExampleType.PLAYER)
+                getGameWorld().getEntitiesByType(ExampleType.PLAYER, ExampleType.BALL)
+                        .stream()
+                        .filter(e -> e.getComponent(PhysicsComponent.class).getVelocityY() == 0)
                         .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(-5, 0)));
             }
         }, KeyCode.A);
+        input.addAction(new UserAction("Move Ball") {
+            @Override
+            protected void onAction() {
+                getGameWorld().getEntitiesByType(ExampleType.BALL)
+                        .stream()
+                        .filter(e -> e.getComponent(PhysicsComponent.class).getVelocityY() == 0)
+                        .forEach(e -> e.getComponent(PhysicsComponent.class).setLinearVelocity(5 * 60, -5 * 60));
+            }
+        }, KeyCode.SPACE);
     }
 
     @Override

@@ -25,4 +25,4 @@ To run the tests you must have JUnit 4 installed. Just go to test package and ex
 ## Authors
 
 - https://github.com/martinKindall (code and tests)
-- https://github.com/juanpablos (game initial design and tests)
+- https://github.com/juanpablos (Facade)
