@@ -3,6 +3,8 @@ package gui;
 import com.almasb.fxgl.app.DSLKt;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.EntityEvent;
+import com.almasb.fxgl.event.EventTrigger;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
@@ -18,6 +20,7 @@ import javafx.scene.text.Text;
 public class View extends GameApplication {
 
     private HomeworkTwoFacade facade;
+    private Entity player;
 
     public static void main(String... args) {
         launch(args);
@@ -28,13 +31,10 @@ public class View extends GameApplication {
         facade = GameFactory.newFacade();
 
 //        Entity bg = GameFactory.newBackground();
-        Entity player = GameFactory.newPlayer(100, 550);
-        Point2D playerPos = player.getPosition();
-        double width = player.getWidth();
-
-        Entity ball = GameFactory.newBall(playerPos.getX() + width/2, playerPos.getY());
+        player = GameFactory.newPlayer(100, 550);
         Entity walls = GameFactory.newWalls();
-        getGameWorld().addEntities(player, ball, walls);
+        getGameWorld().addEntities(player, walls);
+        generateBall();
     }
 
     @Override
@@ -89,15 +89,28 @@ public class View extends GameApplication {
                             ball.removeFromWorld();
                             facade.dropBall();
 
-                            // Esto podría ser una notificacion de facade,
-                            // para no tener que usar este if
                             if (facade.isGameOver()){
-                                Text gameOver = GameFactory.newText("Game over");
-                                getGameScene().addUINode(gameOver);
-                                DSLKt.centerText(gameOver);
+                                showGameOver();
+                            }
+                            else{
+                                generateBall();
                             }
                         }
                     }
                 });
+    }
+
+    private void generateBall() {
+        Point2D playerPos = player.getPosition();
+        double width = player.getWidth();
+        Entity ball = GameFactory.newBall(playerPos.getX() + width/2, playerPos.getY());
+        getGameWorld().addEntity(ball);
+    }
+
+    private void showGameOver(){
+        Text gameOver = GameFactory.newText("Game over");
+        getGameScene().addUINode(gameOver);
+        DSLKt.centerText(gameOver);
+        player.removeFromWorld();
     }
 }
