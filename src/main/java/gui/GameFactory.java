@@ -9,9 +9,13 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import facade.HomeworkTwoFacade;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import logic.level.Level;
 
 public final class GameFactory {
 
@@ -60,5 +64,21 @@ public final class GameFactory {
                 .viewFromNode(new Rectangle(600, 600, Color.BLACK))
                 .renderLayer(RenderLayer.BACKGROUND)
                 .build();
+    }
+
+    public static Text newText(String message){
+        Text text = new Text();
+        text.setText(message);
+        text.setFont(Font.font(18));
+
+        return text;
+    }
+
+    public static HomeworkTwoFacade newFacade(){
+        HomeworkTwoFacade facade = new HomeworkTwoFacade();
+        Level first = facade.newLevelWithBricksNoMetal("uno", 10, 1, 0);
+        facade.setCurrentLevel(first);
+
+        return facade;
     }
 }
