@@ -70,6 +70,7 @@ public final class GameFactory {
         Text text = new Text();
         text.setText(message);
         text.setFont(Font.font(18));
+        text.setFill(Color.WHITE);
 
         return text;
     }

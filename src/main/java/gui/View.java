@@ -3,8 +3,6 @@ package gui;
 import com.almasb.fxgl.app.DSLKt;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.EntityEvent;
-import com.almasb.fxgl.event.EventTrigger;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
@@ -33,10 +31,10 @@ public class View extends GameApplication {
     protected void initGame() {
         facade = GameFactory.newFacade();
 
-//        Entity bg = GameFactory.newBackground();
+        Entity bg = GameFactory.newBackground();
         player = GameFactory.newPlayer(100, 550);
         Entity walls = GameFactory.newWalls();
-        getGameWorld().addEntities(player, walls);
+        getGameWorld().addEntities(player, walls, bg);
         generateBall();
 
         delta = 5;
@@ -54,7 +52,7 @@ public class View extends GameApplication {
                         .filter(e -> e.getComponent(PhysicsComponent.class).getVelocityY() == 0)
                         .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(deltaRight, 0)));
             }
-        }, KeyCode.D);
+        }, KeyCode.L);
         input.addAction(new UserAction("Move Left") {
             @Override
             protected void onAction() {
@@ -63,7 +61,7 @@ public class View extends GameApplication {
                         .filter(e -> e.getComponent(PhysicsComponent.class).getVelocityY() == 0)
                         .forEach(e -> e.getComponent(PhysicsComponent.class).reposition(e.getPosition().add(-deltaLeft, 0)));
             }
-        }, KeyCode.A);
+        }, KeyCode.J);
         input.addAction(new UserAction("Move Ball") {
             @Override
             protected void onAction() {
