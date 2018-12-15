@@ -6,6 +6,6 @@ public class GamePlayingState extends GameState{
 
     @Override
     public void addNewLevel(Level level){
-        super.facade.addPlayingLevel(level);
+        View.addPlayingLevel(level);
     }
 }

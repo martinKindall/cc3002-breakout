@@ -15,7 +15,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import logic.level.Level;
 
 public final class GameFactory {
 
@@ -33,6 +32,7 @@ public final class GameFactory {
                 .type(ExampleType.PLAYER)
                 .viewFromNodeWithBBox(new Rectangle(playerWidth, playerHeight, Color.BLUE))
                 .with(physics, new CollidableComponent(true))
+                .with(new PlayerControl())
                 .build();
     }
 
@@ -76,10 +76,6 @@ public final class GameFactory {
     }
 
     public static HomeworkTwoFacade newFacade(){
-        HomeworkTwoFacade facade = new HomeworkTwoFacade();
-        Level first = facade.newLevelWithBricksNoMetal("uno", 10, 1, 0);
-        facade.setCurrentLevel(first);
-
-        return facade;
+        return new HomeworkTwoFacade();
     }
 }

@@ -13,16 +13,18 @@ import facade.HomeworkTwoFacade;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
+import logic.level.Level;
 
 
 public class View extends GameApplication {
 
-    HomeworkTwoFacade facade;
+    static HomeworkTwoFacade facade;
+    static View currentView;
     private Entity player;
     private int delta;
     private int deltaRight;
     private int deltaLeft;
-    private GameState gameState;
+    private static GameState gameState;
 
     public static void main(String... args) {
         launch(args);
@@ -31,10 +33,9 @@ public class View extends GameApplication {
     @Override
     protected void initGame() {
         facade = GameFactory.newFacade();
+        currentView = this;
 
         gameState = new GameNotReadyState();
-        gameState.setFacade(facade);
-        gameState.setView(this);
 
         Entity bg = GameFactory.newBackground();
         player = GameFactory.newPlayer(100, 550);
@@ -76,6 +77,13 @@ public class View extends GameApplication {
                         .forEach(e -> e.getComponent(PhysicsComponent.class).setLinearVelocity(5 * 60, -5 * 60));
             }
         }, KeyCode.SPACE);
+
+        input.addAction(new UserAction("Add Level") {
+            @Override
+            protected void onActionBegin() {
+                View.addNewLevel();
+            }
+        }, KeyCode.V);
     }
 
     @Override
@@ -143,10 +151,21 @@ public class View extends GameApplication {
         player.removeFromWorld();
     }
 
-    public void setNextState(GameState gameState) {
-        gameState.setFacade(this.facade);
-        gameState.setView(this);
+    public static void setNextState(GameState newGameState) {
+        gameState = newGameState;
+    }
 
-        this.gameState = gameState;
+    public static void addNewLevel(){
+        System.out.println("paso por aca");
+        Level newLevel = facade.newLevelWithBricksNoMetal("uno", 10, 1, 0);
+        gameState.addNewLevel(newLevel);
+    }
+
+    public static void setCurrentLevel(Level level) {
+        facade.setCurrentLevel(level);
+    }
+
+    public static void addPlayingLevel(Level level) {
+        facade.addPlayingLevel(level);
     }
 }
