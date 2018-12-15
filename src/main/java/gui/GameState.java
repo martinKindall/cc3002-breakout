@@ -7,4 +7,7 @@ public class GameState {
 
     public void addNewLevel(Level level){}
 
+    public boolean gameReady() {
+        return false;
+    }
 }

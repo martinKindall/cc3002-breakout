@@ -8,4 +8,9 @@ public class GamePlayingState extends GameState{
     public void addNewLevel(Level level){
         View.addPlayingLevel(level);
     }
+
+    @Override
+    public boolean gameReady(){
+        return true;
+    }
 }

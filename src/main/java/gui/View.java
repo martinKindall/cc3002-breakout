@@ -73,6 +73,7 @@ public class View extends GameApplication {
             protected void onAction() {
                 getGameWorld().getEntitiesByType(ExampleType.BALL)
                         .stream()
+                        .filter(e -> View.gameReady())
                         .filter(e -> e.getComponent(PhysicsComponent.class).getVelocityY() == 0)
                         .forEach(e -> e.getComponent(PhysicsComponent.class).setLinearVelocity(5 * 60, -5 * 60));
             }
@@ -167,5 +168,9 @@ public class View extends GameApplication {
 
     public static void addPlayingLevel(Level level) {
         facade.addPlayingLevel(level);
+    }
+
+    private static boolean gameReady() {
+        return gameState.gameReady();
     }
 }
