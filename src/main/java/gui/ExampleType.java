@@ -3,5 +3,6 @@ package gui;
 public enum ExampleType {
     PLAYER,
     BALL,
-    WALL
+    WALL,
+    BRICK
 }

@@ -15,8 +15,25 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import logic.brick.Brick;
 
 public final class GameFactory {
+
+    public static Entity newBrick(int brickWidth, int brickHeight, double x, double y, Brick aBrick) {
+
+        PhysicsComponent physics = new PhysicsComponent();
+        physics.setBodyType(BodyType.STATIC);
+        physics.setFixtureDef(
+                new FixtureDef().restitution(1.2f).density(0.1f));
+
+        return Entities.builder()
+                .at(x, y)
+                .type(ExampleType.BRICK)
+                .viewFromNodeWithBBox(new Rectangle(brickWidth, brickHeight, Color.BLUE))
+                .with(physics, new CollidableComponent(true))
+                .with(new BrickControl(aBrick))
+                .build();
+    }
 
 
     public static Entity newPlayer(double x, double y) {

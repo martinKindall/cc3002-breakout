@@ -13,7 +13,10 @@ import facade.HomeworkTwoFacade;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
+import logic.brick.Brick;
 import logic.level.Level;
+
+import java.util.List;
 
 
 public class View extends GameApplication {
@@ -158,12 +161,14 @@ public class View extends GameApplication {
 
     public static void addNewLevel(){
         System.out.println("paso por aca");
-        Level newLevel = facade.newLevelWithBricksNoMetal("uno", 10, 1, 0);
+        Level newLevel = facade.newLevelWithBricksNoMetal("uno", 16, 1, 0);
         gameState.addNewLevel(newLevel);
     }
 
     public static void setCurrentLevel(Level level) {
         facade.setCurrentLevel(level);
+
+        renderBricks();
     }
 
     public static void addPlayingLevel(Level level) {
@@ -172,5 +177,26 @@ public class View extends GameApplication {
 
     private static boolean gameReady() {
         return gameState.gameReady();
+    }
+
+    private static void renderBricks(){
+        List<Brick> currentBricks = facade.getBricks();
+
+        double xInitOrig = 20, yInitOrig = 20;
+        double xInit = xInitOrig, yInit = yInitOrig;
+        int brickWidth = 70, brickHeight = 40;
+        int bricksQty = currentBricks.size();
+
+        for(Brick aBrick: currentBricks){
+            Entity entiBrick = GameFactory.newBrick(brickWidth, brickHeight, xInit, yInit, aBrick);
+            currentView.getGameWorld().addEntity(entiBrick);
+            xInit += brickWidth;
+            bricksQty--;
+
+            if (bricksQty % 8 == 0){
+                xInit = xInitOrig;
+                yInit += brickHeight;
+            }
+        }
     }
 }
