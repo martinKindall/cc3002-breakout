@@ -17,11 +17,12 @@ import javafx.scene.text.Text;
 
 public class View extends GameApplication {
 
-    private HomeworkTwoFacade facade;
+    HomeworkTwoFacade facade;
     private Entity player;
     private int delta;
     private int deltaRight;
     private int deltaLeft;
+    private GameState gameState;
 
     public static void main(String... args) {
         launch(args);
@@ -30,6 +31,10 @@ public class View extends GameApplication {
     @Override
     protected void initGame() {
         facade = GameFactory.newFacade();
+
+        gameState = new GameNotReadyState();
+        gameState.setFacade(facade);
+        gameState.setView(this);
 
         Entity bg = GameFactory.newBackground();
         player = GameFactory.newPlayer(100, 550);
@@ -136,5 +141,12 @@ public class View extends GameApplication {
         getGameScene().addUINode(gameOver);
         DSLKt.centerText(gameOver);
         player.removeFromWorld();
+    }
+
+    public void setNextState(GameState gameState) {
+        gameState.setFacade(this.facade);
+        gameState.setView(this);
+
+        this.gameState = gameState;
     }
 }
