@@ -139,6 +139,14 @@ public class View extends GameApplication {
                         deltaLeft = delta;
                     }
                 });
+        getPhysicsWorld().addCollisionHandler(
+                new CollisionHandler(ExampleType.BALL, ExampleType.BRICK) {
+                    @Override
+                    protected void onHitBoxTrigger(Entity ball, Entity brick,
+                                                   HitBox boxBall, HitBox boxBrick) {
+                        brick.removeFromWorld();
+                    }
+                });
     }
 
     private void generateBall() {
