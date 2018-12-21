@@ -24,7 +24,7 @@ public final class GameFactory {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.STATIC);
         physics.setFixtureDef(
-                new FixtureDef().restitution(1.2f).density(0.1f));
+                new FixtureDef().restitution(1.0f).density(0.1f).friction(0f));
 
         return Entities.builder()
                 .at(x, y)

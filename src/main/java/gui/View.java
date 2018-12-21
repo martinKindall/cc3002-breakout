@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import logic.brick.Brick;
 import logic.level.Level;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,7 +28,9 @@ public class View extends GameApplication {
     private int delta;
     private int deltaRight;
     private int deltaLeft;
+    private static int lastLevelPoints;
     private static GameState gameState;
+    private static List<Entity> currentEntityBricks;
 
     public static void main(String... args) {
         launch(args);
@@ -48,6 +51,9 @@ public class View extends GameApplication {
 
         delta = 5;
         deltaRight = deltaLeft = delta;
+
+        lastLevelPoints = 0;
+        currentEntityBricks = new ArrayList<>();
     }
 
     @Override
@@ -149,6 +155,11 @@ public class View extends GameApplication {
 
                         if (ctrl.isDestroyed()){
                             brick.removeFromWorld();
+
+                            if (View.pointsReached()){
+                                renderBricks();
+                                View.updateLastLevelPoints();
+                            }
                         }
                     }
                 });
@@ -174,7 +185,7 @@ public class View extends GameApplication {
 
     public static void addNewLevel(){
         System.out.println("paso por aca");
-        Level newLevel = facade.newLevelWithBricksNoMetal("uno", 16, 1, 0);
+        Level newLevel = facade.newLevelWithBricksNoMetal("uno", 1, 1, 0);
         gameState.addNewLevel(newLevel);
     }
 
@@ -193,6 +204,12 @@ public class View extends GameApplication {
     }
 
     private static void renderBricks(){
+        for(Entity enti: currentEntityBricks){
+            enti.removeFromWorld();
+        }
+
+        currentEntityBricks = new ArrayList<>();
+
         List<Brick> currentBricks = facade.getBricks();
 
         double xInitOrig = 20, yInitOrig = 20;
@@ -210,6 +227,20 @@ public class View extends GameApplication {
                 xInit = xInitOrig;
                 yInit += brickHeight;
             }
+
+            currentEntityBricks.add(entiBrick);
         }
+    }
+
+    private static boolean pointsReached() {
+        return facade.getCurrentPoints() - getLastLevelPoints() == facade.getLevelPoints();
+    }
+
+    private static int getLastLevelPoints() {
+        return lastLevelPoints;
+    }
+
+    private static void updateLastLevelPoints() {
+        lastLevelPoints = facade.getCurrentPoints();
     }
 }
