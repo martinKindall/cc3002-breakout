@@ -14,4 +14,8 @@ public class BrickControl extends Component {
     public void hit(){
         brick.hit();
     }
+
+    public boolean isDestroyed(){
+        return brick.isDestroyed();
+    }
 }

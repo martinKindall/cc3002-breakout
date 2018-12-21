@@ -144,7 +144,12 @@ public class View extends GameApplication {
                     @Override
                     protected void onHitBoxTrigger(Entity ball, Entity brick,
                                                    HitBox boxBall, HitBox boxBrick) {
-                        brick.removeFromWorld();
+                        BrickControl ctrl = brick.getComponent(BrickControl.class);
+                        ctrl.hit();
+
+                        if (ctrl.isDestroyed()){
+                            brick.removeFromWorld();
+                        }
                     }
                 });
     }
