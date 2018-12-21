@@ -29,6 +29,7 @@ public class View extends GameApplication {
     private int deltaRight;
     private int deltaLeft;
     private static int lastLevelPoints;
+    private static int lastCurrentPoints;
     private static GameState gameState;
     private static List<Entity> currentEntityBricks;
 
@@ -53,6 +54,7 @@ public class View extends GameApplication {
         deltaRight = deltaLeft = delta;
 
         lastLevelPoints = 0;
+        lastCurrentPoints = 0;
         currentEntityBricks = new ArrayList<>();
     }
 
@@ -156,9 +158,13 @@ public class View extends GameApplication {
                         if (ctrl.isDestroyed()){
                             brick.removeFromWorld();
 
-                            if (View.pointsReached()){
+                            if (pointsReached()){
+                                if (facade.winner()){
+                                    showWinner();
+                                }
+
                                 renderBricks();
-                                View.updateLastLevelPoints();
+                                updateLastLevelPoints();
                             }
                         }
                     }
@@ -179,6 +185,13 @@ public class View extends GameApplication {
         player.removeFromWorld();
     }
 
+    private void showWinner(){
+        Text gameOver = GameFactory.newText("You won!");
+        getGameScene().addUINode(gameOver);
+        DSLKt.centerText(gameOver);
+        player.removeFromWorld();
+    }
+
     public static void setNextState(GameState newGameState) {
         gameState = newGameState;
     }
@@ -191,6 +204,8 @@ public class View extends GameApplication {
 
     public static void setCurrentLevel(Level level) {
         facade.setCurrentLevel(level);
+        lastLevelPoints = facade.getLevelPoints();
+        lastCurrentPoints = facade.getCurrentPoints();
 
         renderBricks();
     }
@@ -233,7 +248,11 @@ public class View extends GameApplication {
     }
 
     private static boolean pointsReached() {
-        return facade.getCurrentPoints() - getLastLevelPoints() == facade.getLevelPoints();
+        return facade.getCurrentPoints() - getLastCurrentPoints() == getLastLevelPoints();
+    }
+
+    private static int getLastCurrentPoints() {
+        return lastCurrentPoints;
     }
 
     private static int getLastLevelPoints() {
@@ -241,6 +260,7 @@ public class View extends GameApplication {
     }
 
     private static void updateLastLevelPoints() {
-        lastLevelPoints = facade.getCurrentPoints();
+        lastLevelPoints = facade.getLevelPoints();
+        lastCurrentPoints = facade.getCurrentPoints();
     }
 }
