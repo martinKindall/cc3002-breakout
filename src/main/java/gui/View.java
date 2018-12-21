@@ -11,6 +11,7 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
 import facade.HomeworkTwoFacade;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 import logic.brick.Brick;
@@ -25,9 +26,12 @@ public class View extends GameApplication {
     static HomeworkTwoFacade facade;
     static View currentView;
     private Entity player;
-    private int delta;
-    private int deltaRight;
-    private int deltaLeft;
+    private Entity currBall;
+    private Text currMsg;
+
+    private static int delta;
+    private static int deltaRight;
+    private static int deltaLeft;
     private static int lastLevelPoints;
     private static int lastCurrentPoints;
     private static GameState gameState;
@@ -39,16 +43,23 @@ public class View extends GameApplication {
 
     @Override
     protected void initGame() {
-        facade = GameFactory.newFacade();
         currentView = this;
+        initialize();
+    }
+
+    static void initialize(){
+
+        currentView.getGameScene().removeUINode(currentView.getCurrMsg());
+
+        facade = GameFactory.newFacade();
 
         gameState = new GameNotReadyState();
 
         Entity bg = GameFactory.newBackground();
-        player = GameFactory.newPlayer(100, 550);
+        currentView.setPlayer(GameFactory.newPlayer(100, 550));
         Entity walls = GameFactory.newWalls();
-        getGameWorld().addEntities(player, walls, bg);
-        generateBall();
+        currentView.getGameWorld().addEntities(currentView.getPlayer(), walls, bg);
+        currentView.generateBall();
 
         delta = 5;
         deltaRight = deltaLeft = delta;
@@ -56,6 +67,18 @@ public class View extends GameApplication {
         lastLevelPoints = 0;
         lastCurrentPoints = 0;
         currentEntityBricks = new ArrayList<>();
+    }
+
+    private Node getCurrMsg() {
+        return currMsg;
+    }
+
+    private Entity getPlayer() {
+        return player;
+    }
+
+    private void setPlayer(Entity newPlayer) {
+        player = newPlayer;
     }
 
     @Override
@@ -96,6 +119,13 @@ public class View extends GameApplication {
                 View.addNewLevel();
             }
         }, KeyCode.V);
+
+        input.addAction(new UserAction("Restart Game") {
+            @Override
+            protected void onActionBegin() {
+                View.restartGame();
+            }
+        }, KeyCode.Q);
     }
 
     @Override
@@ -175,21 +205,31 @@ public class View extends GameApplication {
         Point2D playerPos = player.getPosition();
         double width = player.getWidth();
         Entity ball = GameFactory.newBall(playerPos.getX() + width/2, playerPos.getY());
+        currBall = ball;
         getGameWorld().addEntity(ball);
     }
 
     private void showGameOver(){
-        Text gameOver = GameFactory.newText("Game over");
+        Text gameOver = GameFactory.newText("Game over. Press Q to try again.");
         getGameScene().addUINode(gameOver);
         DSLKt.centerText(gameOver);
-        player.removeFromWorld();
+        cleanScreen();
+        currMsg = gameOver;
     }
 
     private void showWinner(){
-        Text gameOver = GameFactory.newText("You won!");
-        getGameScene().addUINode(gameOver);
-        DSLKt.centerText(gameOver);
-        player.removeFromWorld();
+        Text gameWin = GameFactory.newText("You won! Press Q to play again.");
+        getGameScene().addUINode(gameWin);
+        DSLKt.centerText(gameWin);
+        cleanScreen();
+        currMsg = gameWin;
+    }
+
+    private void cleanScreen(){
+        currentView.getGameWorld().removeEntities(player, currBall);
+        for(Entity enti: currentEntityBricks){
+            enti.removeFromWorld();
+        }
     }
 
     public static void setNextState(GameState newGameState) {
@@ -216,6 +256,10 @@ public class View extends GameApplication {
 
     private static boolean gameReady() {
         return gameState.gameReady();
+    }
+
+    private static void restartGame() {
+        gameState.restart();
     }
 
     private static void renderBricks(){

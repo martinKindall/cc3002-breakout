@@ -10,4 +10,8 @@ public class GameState {
     public boolean gameReady() {
         return false;
     }
+
+    public void restart() {
+        View.setNextState(new GameNotReadyState());
+    }
 }
