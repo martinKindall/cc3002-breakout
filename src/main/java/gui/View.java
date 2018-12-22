@@ -9,6 +9,7 @@ import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
+import com.almasb.fxgl.ui.InGamePanel;
 import facade.HomeworkTwoFacade;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -30,6 +31,10 @@ public class View extends GameApplication {
     private Entity player;
     private Entity currBall;
     private Text currMsg;
+    private InGamePanel myPanel;
+    private int remainingBalls;
+    private int playedLevels;
+    private int remainingLevels;
 
     private static int delta;
     private static int deltaRight;
@@ -62,6 +67,7 @@ public class View extends GameApplication {
         Entity walls = GameFactory.newWalls();
         currentView.getGameWorld().addEntities(currentView.getPlayer(), walls, bg);
         currentView.generateBall();
+        currentView.setPanel();
 
         delta = 5;
         deltaRight = deltaLeft = delta;
@@ -69,6 +75,32 @@ public class View extends GameApplication {
         lastLevelPoints = 0;
         lastCurrentPoints = 0;
         currentEntityBricks = new ArrayList<>();
+    }
+
+    private void setPanel() {
+        myPanel = new InGamePanel();
+        Text score = GameFactory.newText("Total Score: 0");
+        Text playedLevels = GameFactory.newText("Played levels: 0");
+        Text remainingLevels = GameFactory.newText("Remaining levels: 0");
+        Text remainingBalls = GameFactory.newText("Remaining balls: 0");
+
+        List<Text> listOfTexts = new ArrayList<>();
+        listOfTexts.add(score);
+        listOfTexts.add(playedLevels);
+        listOfTexts.add(remainingLevels);
+        listOfTexts.add(remainingBalls);
+
+        int origY = 50;
+
+        for(Text aText : listOfTexts){
+            aText.setTranslateX(15);
+            aText.setTranslateY(origY);
+
+            origY += 50;
+
+            myPanel.getChildren().add(aText);
+        }
+        getGameScene().addUINode(myPanel);
     }
 
     private Node getCurrMsg() {
@@ -128,6 +160,18 @@ public class View extends GameApplication {
                 View.restartGame();
             }
         }, KeyCode.Q);
+
+        input.addAction(new UserAction("Toggle Menu") {
+            @Override
+            protected void onActionBegin() {
+                if (myPanel.isOpen()){
+                    myPanel.close();
+                }
+                else{
+                    myPanel.open();
+                }
+            }
+        }, KeyCode.W);
     }
 
     @Override
