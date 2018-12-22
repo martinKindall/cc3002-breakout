@@ -14,4 +14,9 @@ public class WoodenBrick extends AbstractBrick {
     public WoodenBrick() {
         super(200, 3);
     }
+
+    @Override
+    public boolean isWooden(){
+        return true;
+    }
 }

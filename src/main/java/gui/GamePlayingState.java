@@ -13,10 +13,4 @@ public class GamePlayingState extends GameState{
     public boolean gameReady(){
         return true;
     }
-
-    @Override
-    public void restart() {
-        View.initialize();
-        View.setNextState(new GameNotReadyState());
-    }
 }

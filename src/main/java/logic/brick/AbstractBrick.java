@@ -85,6 +85,21 @@ public abstract class AbstractBrick extends Observable implements Brick{
         }
     }
 
+    @Override
+    public boolean isWooden(){
+        return false;
+    }
+
+    @Override
+    public boolean isGlass(){
+        return false;
+    }
+
+    @Override
+    public boolean isMetal(){
+        return false;
+    }
+
     protected void reduceHit(){
         remainingHits--;
 

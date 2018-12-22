@@ -12,6 +12,6 @@ public class GameState {
     }
 
     public void restart() {
-        View.setNextState(new GameNotReadyState());
+
     }
 }

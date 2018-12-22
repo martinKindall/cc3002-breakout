@@ -11,6 +11,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import facade.HomeworkTwoFacade;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -19,17 +20,17 @@ import logic.brick.Brick;
 
 public final class GameFactory {
 
-    public static Entity newBrick(int brickWidth, int brickHeight, double x, double y, Brick aBrick) {
+    public static Entity newBrick(int brickWidth, int brickHeight, double x, double y, Brick aBrick, Paint color) {
 
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.STATIC);
         physics.setFixtureDef(
-                new FixtureDef().restitution(1.0f).density(0.1f).friction(0f));
+                new FixtureDef().restitution(1.2f).density(0.1f).friction(0f));
 
         return Entities.builder()
                 .at(x, y)
                 .type(ExampleType.BRICK)
-                .viewFromNodeWithBBox(new Rectangle(brickWidth, brickHeight, Color.BLUE))
+                .viewFromNodeWithBBox(new Rectangle(brickWidth, brickHeight, color))
                 .with(physics, new CollidableComponent(true))
                 .with(new BrickControl(aBrick))
                 .build();
@@ -42,7 +43,7 @@ public final class GameFactory {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.KINEMATIC);
         physics.setFixtureDef(
-                new FixtureDef().restitution(1.2f).density(0.1f));
+                new FixtureDef().restitution(1.2f).density(0.1f).friction(0f));
 
         return Entities.builder()
                 .at(x, y)

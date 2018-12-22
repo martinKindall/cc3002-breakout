@@ -14,4 +14,9 @@ public class GlassBrick extends AbstractBrick{
     public GlassBrick() {
         super(50, 1);
     }
+
+    @Override
+    public boolean isGlass(){
+        return true;
+    }
 }

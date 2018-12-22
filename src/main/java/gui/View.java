@@ -13,6 +13,8 @@ import facade.HomeworkTwoFacade;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import logic.brick.Brick;
 import logic.level.Level;
@@ -210,19 +212,20 @@ public class View extends GameApplication {
     }
 
     private void showGameOver(){
-        Text gameOver = GameFactory.newText("Game over. Press Q to try again.");
-        getGameScene().addUINode(gameOver);
-        DSLKt.centerText(gameOver);
-        cleanScreen();
-        currMsg = gameOver;
+        showFinalMsg("Game over. Press Q to try again.");
     }
 
     private void showWinner(){
-        Text gameWin = GameFactory.newText("You won! Press Q to play again.");
+        showFinalMsg("You won! Press Q to play again.");
+    }
+
+    private void showFinalMsg(String msg){
+        Text gameWin = GameFactory.newText(msg);
         getGameScene().addUINode(gameWin);
         DSLKt.centerText(gameWin);
         cleanScreen();
         currMsg = gameWin;
+        setNextState(new GameFinishedState());
     }
 
     private void cleanScreen(){
@@ -238,7 +241,7 @@ public class View extends GameApplication {
 
     public static void addNewLevel(){
         System.out.println("paso por aca");
-        Level newLevel = facade.newLevelWithBricksNoMetal("uno", 1, 1, 0);
+        Level newLevel = facade.newLevelWithBricksFull("uno", 1, 1, 0, 1);
         gameState.addNewLevel(newLevel);
     }
 
@@ -277,7 +280,10 @@ public class View extends GameApplication {
         int bricksQty = currentBricks.size();
 
         for(Brick aBrick: currentBricks){
-            Entity entiBrick = GameFactory.newBrick(brickWidth, brickHeight, xInit, yInit, aBrick);
+
+            Paint color = setColor(aBrick);
+
+            Entity entiBrick = GameFactory.newBrick(brickWidth, brickHeight, xInit, yInit, aBrick, color);
             currentView.getGameWorld().addEntity(entiBrick);
             xInit += brickWidth;
             bricksQty--;
@@ -289,6 +295,22 @@ public class View extends GameApplication {
 
             currentEntityBricks.add(entiBrick);
         }
+    }
+
+    private static Paint setColor(Brick aBrick) {
+        if (aBrick.isWooden()){
+            return Color.BROWN;
+        }
+
+        if (aBrick.isGlass()){
+            return Color.LIGHTCORAL;
+        }
+
+        if (aBrick.isMetal()){
+            return Color.GRAY;
+        }
+
+        return Color.WHITE;
     }
 
     private static boolean pointsReached() {

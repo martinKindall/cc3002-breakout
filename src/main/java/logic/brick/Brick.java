@@ -47,4 +47,10 @@ public interface Brick {
      * @param observer the one observing the brick
      */
     void subscribe(Observer observer);
+
+    boolean isWooden();
+
+    boolean isGlass();
+
+    boolean isMetal();
 }

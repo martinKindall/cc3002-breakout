@@ -28,4 +28,9 @@ public class MetalBrick extends AbstractBrick {
         setChanged();
         notifyObservers(new MetalBrickDestroyedVisitor(this));
     }
+
+    @Override
+    public boolean isMetal(){
+        return true;
+    }
 }
