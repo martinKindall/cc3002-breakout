@@ -25,7 +25,7 @@ public final class GameFactory {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.STATIC);
         physics.setFixtureDef(
-                new FixtureDef().restitution(1.2f).density(0.1f).friction(0f));
+                new FixtureDef().restitution(0f).density(0f).friction(0f));
 
         return Entities.builder()
                 .at(x, y)
@@ -43,7 +43,7 @@ public final class GameFactory {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.KINEMATIC);
         physics.setFixtureDef(
-                new FixtureDef().restitution(1.2f).density(0.1f).friction(0f));
+                new FixtureDef().restitution(0f).density(0f).friction(1f));
 
         return Entities.builder()
                 .at(x, y)
@@ -58,7 +58,7 @@ public final class GameFactory {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(
-                new FixtureDef().restitution(1f).density(1f));
+                new FixtureDef().restitution(1f).density(1f).friction(1f));
 //        physics.setOnPhysicsInitialized(
 //                () -> physics.setLinearVelocity(5 * 60, -5 * 60));
         return Entities.builder()
@@ -73,6 +73,7 @@ public final class GameFactory {
     public static Entity newWalls() {
         Entity walls = Entities.makeScreenBounds(100);
         walls.setType(ExampleType.WALL);
+        walls.getComponent(PhysicsComponent.class).setFixtureDef(new FixtureDef().restitution(0f).density(0f).friction(0f));
         walls.addComponent(new CollidableComponent(true));
         return walls;
     }

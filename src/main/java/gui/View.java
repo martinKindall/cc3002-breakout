@@ -69,14 +69,18 @@ public class View extends GameApplication {
         currentView.generateBall();
         currentView.setPlayedLevels(0);
         currentView.setRemainigLevels(0);
+        currentView.setLastLevelScore(0);
+        lastCurrentPoints = 0;
         currentView.setPanel();
 
         delta = 5;
         deltaRight = deltaLeft = delta;
 
-        lastLevelPoints = 0;
-        lastCurrentPoints = 0;
         currentEntityBricks = new ArrayList<>();
+    }
+
+    private void setLastLevelScore(int i) {
+        lastLevelPoints = i;
     }
 
     private void setRemainigLevels(int i) {
@@ -92,12 +96,14 @@ public class View extends GameApplication {
 
         myPanel = new InGamePanel();
         Text score = GameFactory.newText("Total Score: " + facade.getCurrentPoints());
+        Text currScore = GameFactory.newText("Level Score: " + (facade.getCurrentPoints() - lastCurrentPoints));
         Text playedLevels = GameFactory.newText("Played levels: " + this.playedLevels);
         Text remainingLevels = GameFactory.newText("Remaining levels: " + this.remainingLevels);
         Text remainingBalls = GameFactory.newText("Remaining balls: " + facade.getBallsLeft());
 
         List<Text> listOfTexts = new ArrayList<>();
         listOfTexts.add(score);
+        listOfTexts.add(currScore);
         listOfTexts.add(playedLevels);
         listOfTexts.add(remainingLevels);
         listOfTexts.add(remainingBalls);
@@ -105,7 +111,7 @@ public class View extends GameApplication {
         int origY = 50;
 
         for(Text aText : listOfTexts){
-            aText.setTranslateX(15);
+            aText.setTranslateX(5);
             aText.setTranslateY(origY);
 
             origY += 50;
@@ -307,7 +313,7 @@ public class View extends GameApplication {
 
     public static void addNewLevel(){
         System.out.println("paso por aca");
-        Level newLevel = facade.newLevelWithBricksFull("uno", 1, 1, 0, 1);
+        Level newLevel = facade.newLevelWithBricksFull("uno", 2, 1, 0, 1);
         gameState.addNewLevel(newLevel);
     }
 
