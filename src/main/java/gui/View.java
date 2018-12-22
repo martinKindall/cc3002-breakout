@@ -193,8 +193,11 @@ public class View extends GameApplication {
                             if (pointsReached()){
                                 if (facade.winner()){
                                     showWinner();
+                                    return;
                                 }
 
+                                currBall.removeFromWorld();
+                                generateBall();
                                 renderBricks();
                                 updateLastLevelPoints();
                             }
