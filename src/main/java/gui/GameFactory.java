@@ -85,13 +85,17 @@ public final class GameFactory {
                 .build();
     }
 
-    public static Text newText(String message){
+    public static Text newText(String message, Paint color){
         Text text = new Text();
         text.setText(message);
         text.setFont(Font.font(18));
-        text.setFill(Color.WHITE);
+        text.setFill(color);
 
         return text;
+    }
+
+    public static Text newText(String message){
+        return newText(message, Color.WHITE);
     }
 
     public static HomeworkTwoFacade newFacade(){

@@ -18,6 +18,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import logic.brick.Brick;
+import logic.brick.GlassBrick;
+import logic.brick.MetalBrick;
+import logic.brick.WoodenBrick;
 import logic.level.Level;
 
 import java.util.ArrayList;
@@ -102,12 +105,19 @@ public class View extends GameApplication {
         Text remainingLevels = GameFactory.newText("Remaining levels: " + this.remainingLevels);
         Text remainingBalls = GameFactory.newText("Remaining balls: " + facade.getBallsLeft());
 
+        Text glassHits = GameFactory.newText("Glass: 1 hit", setColor(new GlassBrick()));
+        Text woodenHits = GameFactory.newText("Wooden: 3 hits", setColor(new WoodenBrick()));
+        Text metalHits = GameFactory.newText("Metal: 10 hits", setColor(new MetalBrick()));
+
         List<Text> listOfTexts = new ArrayList<>();
         listOfTexts.add(score);
         listOfTexts.add(currScore);
         listOfTexts.add(playedLevels);
         listOfTexts.add(remainingLevels);
         listOfTexts.add(remainingBalls);
+        listOfTexts.add(glassHits);
+        listOfTexts.add(woodenHits);
+        listOfTexts.add(metalHits);
 
         int origY = 50;
 
