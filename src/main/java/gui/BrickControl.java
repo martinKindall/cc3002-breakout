@@ -18,4 +18,8 @@ public class BrickControl extends Component {
     public boolean isDestroyed(){
         return brick.isDestroyed();
     }
+
+    public Brick getBrick() {
+        return brick;
+    }
 }

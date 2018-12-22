@@ -264,6 +264,7 @@ public class View extends GameApplication {
 
                         if (ctrl.isDestroyed()){
                             brick.removeFromWorld();
+                            getAudioPlayer().playSound("pop.wav");
 
                             if (pointsReached()){
                                 remainingLevels--;
@@ -281,6 +282,15 @@ public class View extends GameApplication {
                             }
 
                             setPanel();
+                        }
+
+                        else{
+                            if (ctrl.getBrick().isWooden()){
+                                getAudioPlayer().playSound("wood.wav");
+                            }
+                            if (ctrl.getBrick().isMetal()){
+                                getAudioPlayer().playSound("metal.wav");
+                            }
                         }
                     }
                 });
