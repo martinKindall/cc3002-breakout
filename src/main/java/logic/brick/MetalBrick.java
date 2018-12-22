@@ -14,7 +14,7 @@ public class MetalBrick extends AbstractBrick {
      * Its has 0 score and endures 10 hits
      */
     public MetalBrick() {
-        super(0, 10);
+        super(0, 1);
     }
 
 

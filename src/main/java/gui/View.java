@@ -33,7 +33,7 @@ public class View extends GameApplication {
     static HomeworkTwoFacade facade;
     static View currentView;
     private Entity player;
-    private Entity currBall;
+    private List<Entity> listOfBalls;
     private Text currMsg;
     private InGamePanel myPanel;
     private int remainingBalls;
@@ -45,6 +45,7 @@ public class View extends GameApplication {
     private static int deltaLeft;
     private static int lastLevelPoints;
     private static int lastCurrentPoints;
+    private static int extraScore;
     private static GameState gameState;
     private static List<Entity> currentEntityBricks;
 
@@ -65,6 +66,7 @@ public class View extends GameApplication {
         facade = GameFactory.newFacade();
 
         gameState = new GameNotReadyState();
+        currentView.initListOfBalls();
 
         Entity bg = GameFactory.newBackground();
         currentView.setPlayer(GameFactory.newPlayer(100, 550));
@@ -74,6 +76,7 @@ public class View extends GameApplication {
         currentView.setPlayedLevels(0);
         currentView.setRemainigLevels(0);
         currentView.setLastLevelScore(0);
+        extraScore = 0;
         lastCurrentPoints = 0;
         currentView.setPanel();
 
@@ -81,6 +84,10 @@ public class View extends GameApplication {
         deltaRight = deltaLeft = delta;
 
         currentEntityBricks = new ArrayList<>();
+    }
+
+    private void initListOfBalls() {
+        listOfBalls = new ArrayList<>();
     }
 
     private void setLastLevelScore(int i) {
@@ -95,11 +102,11 @@ public class View extends GameApplication {
         playedLevels = i;
     }
 
-    private void setPanel() {
+    void setPanel() {
         getGameScene().removeUINode(myPanel);
 
         myPanel = new InGamePanel();
-        Text score = GameFactory.newText("Total Score: " + facade.getCurrentPoints());
+        Text score = GameFactory.newText("Total Score: " + (facade.getCurrentPoints() + extraScore));
         Text currScore = GameFactory.newText("Level Score: " + (facade.getCurrentPoints() - lastCurrentPoints));
         Text playedLevels = GameFactory.newText("Played levels: " + this.playedLevels);
         Text remainingLevels = GameFactory.newText("Remaining levels: " + this.remainingLevels);
@@ -221,13 +228,16 @@ public class View extends GameApplication {
                                                    HitBox boxBall, HitBox boxWall) {
                         if (boxWall.getName().equals("BOT")) {
                             ball.removeFromWorld();
-                            facade.dropBall();
+                            listOfBalls.remove(ball);
 
-                            if (facade.isGameOver()){
-                                showGameOver();
-                            }
-                            else{
-                                generateBall();
+                            if (listOfBalls.size() == 0){
+                                facade.dropBall();
+                                if (facade.isGameOver()){
+                                    showGameOver();
+                                }
+                                else{
+                                    generateBall();
+                                }
                             }
 
                             setPanel();
@@ -265,6 +275,7 @@ public class View extends GameApplication {
                         if (ctrl.isDestroyed()){
                             brick.removeFromWorld();
                             getAudioPlayer().playSound("pop.wav");
+                            new ExtraScoreBonus(currentView).onAction();
 
                             if (pointsReached()){
                                 remainingLevels--;
@@ -274,11 +285,14 @@ public class View extends GameApplication {
                                     showWinner();
                                 }
                                 else {
-                                    currBall.removeFromWorld();
+                                    removeBalls();
                                     generateBall();
                                     renderBricks();
                                     updateLastLevelPoints();
                                 }
+                            }
+                            else{
+                                new ExtraBallBonus(currentView).onAction();
                             }
 
                             setPanel();
@@ -296,11 +310,11 @@ public class View extends GameApplication {
                 });
     }
 
-    private void generateBall() {
+    void generateBall() {
         Point2D playerPos = player.getPosition();
         double width = player.getWidth();
         Entity ball = GameFactory.newBall(playerPos.getX() + width/2, playerPos.getY());
-        currBall = ball;
+        listOfBalls.add(ball);
         getGameWorld().addEntity(ball);
     }
 
@@ -322,7 +336,8 @@ public class View extends GameApplication {
     }
 
     private void cleanScreen(){
-        currentView.getGameWorld().removeEntities(player, currBall);
+        removeBalls();
+        currentView.getGameWorld().removeEntities(player);
         for(Entity enti: currentEntityBricks){
             enti.removeFromWorld();
         }
@@ -432,5 +447,16 @@ public class View extends GameApplication {
     private static void updateLastLevelPoints() {
         lastLevelPoints = facade.getLevelPoints();
         lastCurrentPoints = facade.getCurrentPoints();
+    }
+
+    public void increaseScore(int i) {
+        extraScore += i;
+    }
+
+    private void removeBalls(){
+        for (Entity aBall: listOfBalls){
+            aBall.removeFromWorld();
+        }
+        listOfBalls = new ArrayList<>();
     }
 }
