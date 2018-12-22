@@ -8,7 +8,7 @@ public class ExtraScoreBonus extends AbstractBonus {
 
     @Override
     public double probability() {
-        return 0.5;
+        return 0.03;
     }
 
     @Override
