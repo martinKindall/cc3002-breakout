@@ -21,6 +21,7 @@ import logic.brick.Brick;
 import logic.level.Level;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -194,7 +195,7 @@ public class View extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings gameSettings) {
-        gameSettings.setWidth(600);
+        gameSettings.setWidth(800);
         gameSettings.setHeight(600);
         gameSettings.setTitle("Breakout Game");
         gameSettings.setVersion("0.1");
@@ -313,7 +314,7 @@ public class View extends GameApplication {
 
     public static void addNewLevel(){
         System.out.println("paso por aca");
-        Level newLevel = facade.newLevelWithBricksFull("uno", 2, 1, 0, 1);
+        Level newLevel = facade.newLevelWithBricksFull("uno", 10, 0.7, 0.1, 2);
         gameState.addNewLevel(newLevel);
     }
 
@@ -353,11 +354,13 @@ public class View extends GameApplication {
         currentEntityBricks = new ArrayList<>();
 
         List<Brick> currentBricks = facade.getBricks();
+        Collections.shuffle(currentBricks);
 
-        double xInitOrig = 20, yInitOrig = 20;
+        double xInitOrig = 75, yInitOrig = 100;
         double xInit = xInitOrig, yInit = yInitOrig;
         int brickWidth = 70, brickHeight = 40;
         int bricksQty = currentBricks.size();
+        int i = 1;
 
         for(Brick aBrick: currentBricks){
 
@@ -366,9 +369,10 @@ public class View extends GameApplication {
             Entity entiBrick = GameFactory.newBrick(brickWidth, brickHeight, xInit, yInit, aBrick, color);
             currentView.getGameWorld().addEntity(entiBrick);
             xInit += brickWidth;
-            bricksQty--;
 
-            if (bricksQty % 8 == 0){
+            i++;
+
+            if (i == 10){
                 xInit = xInitOrig;
                 yInit += brickHeight;
             }

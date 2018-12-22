@@ -80,7 +80,7 @@ public final class GameFactory {
 
     public static Entity newBackground() {
         return Entities.builder()
-                .viewFromNode(new Rectangle(600, 600, Color.BLACK))
+                .viewFromNode(new Rectangle(800, 600, Color.BLACK))
                 .renderLayer(RenderLayer.BACKGROUND)
                 .build();
     }
