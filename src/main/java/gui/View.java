@@ -67,6 +67,8 @@ public class View extends GameApplication {
         Entity walls = GameFactory.newWalls();
         currentView.getGameWorld().addEntities(currentView.getPlayer(), walls, bg);
         currentView.generateBall();
+        currentView.setPlayedLevels(0);
+        currentView.setRemainigLevels(0);
         currentView.setPanel();
 
         delta = 5;
@@ -77,12 +79,22 @@ public class View extends GameApplication {
         currentEntityBricks = new ArrayList<>();
     }
 
+    private void setRemainigLevels(int i) {
+        remainingLevels = i;
+    }
+
+    private void setPlayedLevels(int i) {
+        playedLevels = i;
+    }
+
     private void setPanel() {
+        getGameScene().removeUINode(myPanel);
+
         myPanel = new InGamePanel();
-        Text score = GameFactory.newText("Total Score: 0");
-        Text playedLevels = GameFactory.newText("Played levels: 0");
-        Text remainingLevels = GameFactory.newText("Remaining levels: 0");
-        Text remainingBalls = GameFactory.newText("Remaining balls: 0");
+        Text score = GameFactory.newText("Total Score: " + facade.getCurrentPoints());
+        Text playedLevels = GameFactory.newText("Played levels: " + this.playedLevels);
+        Text remainingLevels = GameFactory.newText("Remaining levels: " + this.remainingLevels);
+        Text remainingBalls = GameFactory.newText("Remaining balls: " + facade.getBallsLeft());
 
         List<Text> listOfTexts = new ArrayList<>();
         listOfTexts.add(score);
@@ -200,6 +212,8 @@ public class View extends GameApplication {
                             else{
                                 generateBall();
                             }
+
+                            setPanel();
                         }
                     }
                 });
@@ -235,16 +249,21 @@ public class View extends GameApplication {
                             brick.removeFromWorld();
 
                             if (pointsReached()){
+                                remainingLevels--;
+                                playedLevels++;
+
                                 if (facade.winner()){
                                     showWinner();
-                                    return;
                                 }
-
-                                currBall.removeFromWorld();
-                                generateBall();
-                                renderBricks();
-                                updateLastLevelPoints();
+                                else {
+                                    currBall.removeFromWorld();
+                                    generateBall();
+                                    renderBricks();
+                                    updateLastLevelPoints();
+                                }
                             }
+
+                            setPanel();
                         }
                     }
                 });
@@ -296,12 +315,20 @@ public class View extends GameApplication {
         facade.setCurrentLevel(level);
         lastLevelPoints = facade.getLevelPoints();
         lastCurrentPoints = facade.getCurrentPoints();
+        View.currentView.setRemainigLevels(1);
+        View.currentView.setPanel();
 
         renderBricks();
     }
 
     public static void addPlayingLevel(Level level) {
         facade.addPlayingLevel(level);
+        View.currentView.setRemainigLevels(View.currentView.getRemainingLevels() + 1);
+        View.currentView.setPanel();
+    }
+
+    private int getRemainingLevels() {
+        return remainingLevels;
     }
 
     private static boolean gameReady() {
