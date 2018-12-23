@@ -47,8 +47,6 @@ To run the tests you must have JUnit 4 installed. Just go to test package and ex
 ## Authors
 
 - https://github.com/martinKindall (code and tests)
-- https://github.com/juanpablos (Facade)
-
 
 ## GUI Package
 
@@ -77,3 +75,8 @@ There are three posible states:
 ### GameFactory
 
 This class contains the methods that creates the game's entities (player slider, bricks, walls, ball). It defines the game physics laws. 
+
+
+### Nota al ayudate:
+
+Usé mi propio código. Es posible que hayan comentarios de JuanPablo pero esos corresponden a los métodos públicos de Game, los cuales fueron entregados en la Tarea 2.
