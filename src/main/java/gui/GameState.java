@@ -1,6 +1,5 @@
 package gui;
 
-import facade.HomeworkTwoFacade;
 import logic.level.Level;
 
 public class GameState {

@@ -188,7 +188,7 @@ public class View extends GameApplication {
             protected void onActionBegin() {
                 View.addNewLevel();
             }
-        }, KeyCode.V);
+        }, KeyCode.N);
 
         input.addAction(new UserAction("Restart Game") {
             @Override
@@ -348,8 +348,7 @@ public class View extends GameApplication {
     }
 
     public static void addNewLevel(){
-        System.out.println("paso por aca");
-        Level newLevel = facade.newLevelWithBricksFull("uno", 10, 0.7, 0.1, 2);
+        Level newLevel = facade.newLevelWithBricksFull("uno", 20, 0.7, 0.1, 2);
         gameState.addNewLevel(newLevel);
     }
 
@@ -394,7 +393,6 @@ public class View extends GameApplication {
         double xInitOrig = 75, yInitOrig = 100;
         double xInit = xInitOrig, yInit = yInitOrig;
         int brickWidth = 70, brickHeight = 40;
-        int bricksQty = currentBricks.size();
         int i = 1;
 
         for(Brick aBrick: currentBricks){
@@ -410,6 +408,7 @@ public class View extends GameApplication {
             if (i == 10){
                 xInit = xInitOrig;
                 yInit += brickHeight;
+                i = 1;
             }
 
             currentEntityBricks.add(entiBrick);

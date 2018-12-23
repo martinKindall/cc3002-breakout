@@ -50,7 +50,6 @@ public final class GameFactory {
                 .type(ExampleType.PLAYER)
                 .viewFromNodeWithBBox(new Rectangle(playerWidth, playerHeight, Color.BLUE))
                 .with(physics, new CollidableComponent(true))
-                .with(new PlayerControl())
                 .build();
     }
 
@@ -59,8 +58,6 @@ public final class GameFactory {
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(
                 new FixtureDef().restitution(1f).density(1f).friction(1f));
-//        physics.setOnPhysicsInitialized(
-//                () -> physics.setLinearVelocity(5 * 60, -5 * 60));
         return Entities.builder()
                 .at(x, y)
                 .type(ExampleType.BALL)
